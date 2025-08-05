@@ -12,6 +12,7 @@
 
 import { Parser } from '../src/Parser.js';
 import { deepEqual } from 'assert';
+import { diff } from 'jest-diff';
 
 /**
  * List of tests.
@@ -93,15 +94,34 @@ exec();
  * Test function.
  */
 function test(program, expected) {
-  const ast = parser.parse(program);
-  deepEqual(ast, expected);
+  let ast;
+  try {
+    ast = parser.parse(program);
+    deepEqual(ast, expected);
+  } catch (e) {
+    const d = diff(expected, ast)
+    if (d) throw new Error(d)
+    throw e
+  }
 }
 
 // Run all tests:
 
-tests.forEach(async testCase => {
-  const { default: testRun } = await import(`${testCase}.js`);
-  return testRun(test);
-});
+let testsFailed = 0;
+for await (const testName of tests) {
+  try {
+    const { default: testRun } = await import(`./${testName}.js`);
+    testRun(test);
+    console.log(`✅ Test passed: ${testName}`);
+  } catch (e) {
+    testsFailed++;
+    console.log(`❌ Test failed: ${testName}`);
+    console.error(e?.message);
+  }
+}
 
-console.log('All assertions passed!');
+if (testsFailed > 0) {
+  console.error(`❌ Some tests failed:`, testsFailed);
+} else {
+  console.log("✅ All tests passed!");
+}
