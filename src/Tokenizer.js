@@ -84,7 +84,7 @@ const Spec = [
  *
  * Lazily pulls a token from a stream.
  */
-class Tokenizer {
+export class Tokenizer {
   /**
    * Initializes the string.
    */
@@ -130,7 +130,6 @@ class Tokenizer {
         return this.getNextToken();
       }
 
-      debugger;
       return {
         type: tokenType,
         value: tokenValue,
@@ -152,7 +151,3 @@ class Tokenizer {
     return matched[0];
   }
 }
-
-module.exports = {
-  Tokenizer,
-};

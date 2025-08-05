@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-module.exports = test => {
+export default test => {
   test(
     `
     for (let i = 0; i < 10; i += 1) {

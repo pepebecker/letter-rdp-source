@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-module.exports = test => {
+export default test => {
   // Simple assignment:
   test(`x = 42;`, {
     type: 'Program',

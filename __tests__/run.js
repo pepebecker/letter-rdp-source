@@ -10,32 +10,32 @@
  * Main test runner.
  */
 
-const {Parser} = require('../src/Parser');
-const assert = require('assert');
+import { Parser } from '../src/Parser.js';
+import { deepEqual } from 'assert';
 
 /**
  * List of tests.
  */
 const tests = [
-  require('./literals-test.js'),
-  require('./statement-list-test.js'),
-  require('./block-test.js'),
-  require('./empty-statement-test.js'),
-  require('./math-test.js'),
-  require('./assignment-test.js'),
-  require('./variable-test.js'),
-  require('./if-test.js'),
-  require('./relational-test.js'),
-  require('./equality-test.js'),
-  require('./logical-test.js'),
-  require('./unary-test.js'),
-  require('./while-test.js'),
-  require('./do-while-test.js'),
-  require('./for-test.js'),
-  require('./function-declaration-test.js'),
-  require('./member-test.js'),
-  require('./call-test.js'),
-  require('./class-test.js'),
+  'literals-test',
+  'statement-list-test',
+  'block-test',
+  'empty-statement-test',
+  'math-test',
+  'assignment-test',
+  'variable-test',
+  'if-test',
+  'relational-test',
+  'equality-test',
+  'logical-test',
+  'unary-test',
+  'while-test',
+  'do-while-test',
+  'for-test',
+  'function-declaration-test',
+  'member-test',
+  'call-test',
+  'class-test',
 ];
 
 const parser = new Parser();
@@ -94,11 +94,14 @@ exec();
  */
 function test(program, expected) {
   const ast = parser.parse(program);
-  assert.deepEqual(ast, expected);
+  deepEqual(ast, expected);
 }
 
 // Run all tests:
 
-tests.forEach(testRun => testRun(test));
+tests.forEach(async testCase => {
+  const { default: testRun } = await import(`${testCase}.js`);
+  return testRun(test);
+});
 
 console.log('All assertions passed!');

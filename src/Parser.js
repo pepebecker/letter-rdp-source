@@ -10,9 +10,9 @@
  * Letter parser: recursive descent implementation.
  */
 
-const {Tokenizer} = require('./Tokenizer');
+import { Tokenizer } from './Tokenizer.js';
 
-class Parser {
+export class Parser {
   /**
    * Initializes the parser.
    */
@@ -1025,7 +1025,3 @@ class Parser {
     return token;
   }
 }
-
-module.exports = {
-  Parser,
-};

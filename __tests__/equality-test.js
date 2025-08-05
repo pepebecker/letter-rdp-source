@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-module.exports = test => {
+export default test => {
   test('x > 0 == true;', {
     type: 'Program',
     body: [

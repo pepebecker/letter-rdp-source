@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-module.exports = test => {
+export default test => {
   // Addition:
   // left: 2
   // right: 2
