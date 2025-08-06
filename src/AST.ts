@@ -129,6 +129,7 @@ export type ExpressionStatementNode = {
 export type VariableStatementNode = {
   type: "VariableStatement";
   declarations: VariableDeclarationNode[];
+  isConstant?: boolean;
 };
 export type VariableDeclarationNode = {
   type: "VariableDeclaration";
@@ -341,11 +342,14 @@ const ASTNodeFactory = {
   },
   VariableStatement(
     declarations: VariableDeclarationNode[],
+    isConstant?: boolean,
   ): VariableStatementNode {
-    return {
+    const node: VariableStatementNode = {
       type: "VariableStatement",
       declarations,
     };
+    if (isConstant) node.isConstant = isConstant;
+    return node;
   },
   VariableDeclaration(
     id: IdentifierNode,

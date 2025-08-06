@@ -13,6 +13,7 @@ export default (test) => {
     body: [
       {
         type: "VariableStatement",
+        isConstant: true,
         declarations: [
           {
             type: "VariableDeclaration",
@@ -31,7 +32,7 @@ export default (test) => {
   });
 
   // Variable declaration, no init:
-  test(`let x;`, {
+  test(`var x;`, {
     type: "Program",
     body: [
       {
@@ -51,7 +52,7 @@ export default (test) => {
   });
 
   // Multiple variable declarations, no init:
-  test(`let x, y;`, {
+  test(`var x, y;`, {
     type: "Program",
     body: [
       {
@@ -79,7 +80,7 @@ export default (test) => {
   });
 
   // Multiple variable declarations:
-  test(`let x, y = 42;`, {
+  test(`var x, y = 42;`, {
     type: "Program",
     body: [
       {

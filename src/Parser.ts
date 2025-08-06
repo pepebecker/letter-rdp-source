@@ -290,7 +290,7 @@ export class Parser {
    *   ;
    */
   ForStatementInit() {
-    if (this._lookahead?.type === "let") {
+    if (this._lookahead?.type === "var") {
       return this.VariableStatementInit();
     }
     return this.ExpressionStatement();
@@ -342,9 +342,10 @@ export class Parser {
    *   ;
    */
   VariableStatementInit() {
+    const isConstant = this._lookahead?.type === "let";
     this._eat(this._lookahead!.type);
     const declarations = this.VariableDeclarationList();
-    return factory.VariableStatement(declarations);
+    return factory.VariableStatement(declarations, isConstant);
   }
 
   /**
