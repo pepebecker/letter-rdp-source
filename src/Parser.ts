@@ -10,15 +10,15 @@
  * Letter parser: recursive descent implementation.
  */
 
-import { Tokenizer } from './Tokenizer.ts';
+import { Tokenizer } from "./Tokenizer.ts";
 import {
   type ExpressionNode,
+  factory,
   type IdentifierNode,
   type StatementNode,
   type VariableDeclarationNode,
-  factory,
-} from './AST.ts';
-import { OperatorType, Token, TokenType } from './Token.ts';
+} from "./AST.ts";
+import { OperatorType, Token, TokenType } from "./Token.ts";
 
 export class Parser {
   _string: string;
@@ -29,7 +29,7 @@ export class Parser {
    * Initializes the parser.
    */
   constructor() {
-    this._string = '';
+    this._string = "";
     this._tokenizer = new Tokenizer();
     this._lookahead = null;
   }
@@ -96,28 +96,28 @@ export class Parser {
    */
   Statement(): StatementNode {
     switch (this._lookahead?.type) {
-      case ';':
+      case ";":
         return this.EmptyStatement();
-      case '{':
+      case "{":
         return this.BlockStatement();
-      case 'let':
-      case 'var':
+      case "let":
+      case "var":
         return this.VariableStatement();
-      case 'if':
+      case "if":
         return this.IfStatement();
-      case 'while':
-      case 'do':
-      case 'for':
+      case "while":
+      case "do":
+      case "for":
         return this.IterationStatement();
-      case 'break':
+      case "break":
         return this.BreakStatement();
-      case 'continue':
+      case "continue":
         return this.ContinueStatement();
-      case 'def':
+      case "def":
         return this.FunctionDeclaration();
-      case 'return':
+      case "return":
         return this.ReturnStatement();
-      case 'class':
+      case "class":
         return this.ClassDeclaration();
       default:
         return this.ExpressionStatement();
@@ -130,11 +130,11 @@ export class Parser {
    *   ;
    */
   ClassDeclaration() {
-    this._eat('class');
+    this._eat("class");
 
     const id = this.Identifier();
 
-    const superClass = this._lookahead?.type === 'extends'
+    const superClass = this._lookahead?.type === "extends"
       ? this.ClassExtends()
       : null;
 
@@ -149,7 +149,7 @@ export class Parser {
    *   ;
    */
   ClassExtends() {
-    this._eat('extends');
+    this._eat("extends");
     return this.Identifier();
   }
 
@@ -159,16 +159,16 @@ export class Parser {
    *   ;
    */
   FunctionDeclaration() {
-    this._eat('def');
+    this._eat("def");
     const name = this.Identifier();
 
-    this._eat('(');
+    this._eat("(");
 
-    const params = this._lookahead?.type !== ')'
+    const params = this._lookahead?.type !== ")"
       ? this.FormalParameterList()
       : [];
 
-    this._eat(')');
+    this._eat(")");
 
     const body = this.BlockStatement();
 
@@ -186,7 +186,7 @@ export class Parser {
 
     do {
       params.push(this.Identifier());
-    } while (this._lookahead?.type === ',' && this._eat(','));
+    } while (this._lookahead?.type === "," && this._eat(","));
 
     return params;
   }
@@ -197,9 +197,9 @@ export class Parser {
    *   ;
    */
   ReturnStatement() {
-    this._eat('return');
-    const argument = this._lookahead?.type !== ';' ? this.Expression() : null;
-    this._eat(';');
+    this._eat("return");
+    const argument = this._lookahead?.type !== ";" ? this.Expression() : null;
+    this._eat(";");
     return factory.ReturnStatement(argument);
   }
 
@@ -212,14 +212,14 @@ export class Parser {
    */
   IterationStatement() {
     switch (this._lookahead?.type) {
-      case 'while':
+      case "while":
         return this.WhileStatement();
-      case 'do':
+      case "do":
         return this.DoWhileStatement();
-      case 'for':
+      case "for":
         return this.ForStatement();
     }
-    throw new SyntaxError('Unexpected iteration productuon');
+    throw new SyntaxError("Unexpected iteration productuon");
   }
 
   /**
@@ -228,11 +228,11 @@ export class Parser {
    *   ;
    */
   WhileStatement() {
-    this._eat('while');
+    this._eat("while");
 
-    this._eat('(');
+    this._eat("(");
     const test = this.Expression();
-    this._eat(')');
+    this._eat(")");
 
     const body = this.Statement();
 
@@ -245,17 +245,17 @@ export class Parser {
    *   ;
    */
   DoWhileStatement() {
-    this._eat('do');
+    this._eat("do");
 
     const body = this.Statement();
 
-    this._eat('while');
+    this._eat("while");
 
-    this._eat('(');
+    this._eat("(");
     const test = this.Expression();
-    this._eat(')');
+    this._eat(")");
 
-    this._eat(';');
+    this._eat(";");
 
     return factory.DoWhileStatement(body, test);
   }
@@ -266,17 +266,17 @@ export class Parser {
    *   ;
    */
   ForStatement() {
-    this._eat('for');
-    this._eat('(');
+    this._eat("for");
+    this._eat("(");
 
-    const init = this._lookahead?.type !== ';' ? this.ForStatementInit() : null;
-    this._eat(';');
+    const init = this._lookahead?.type !== ";" ? this.ForStatementInit() : null;
+    this._eat(";");
 
-    const test = this._lookahead?.type !== ';' ? this.Expression() : null;
-    this._eat(';');
+    const test = this._lookahead?.type !== ";" ? this.Expression() : null;
+    this._eat(";");
 
-    const update = this._lookahead?.type !== ')' ? this.Expression() : null;
-    this._eat(')');
+    const update = this._lookahead?.type !== ")" ? this.Expression() : null;
+    this._eat(")");
 
     const body = this.Statement();
 
@@ -290,7 +290,7 @@ export class Parser {
    *   ;
    */
   ForStatementInit() {
-    if (this._lookahead?.type === 'let') {
+    if (this._lookahead?.type === "let") {
       return this.VariableStatementInit();
     }
     return this.ExpressionStatement();
@@ -302,8 +302,8 @@ export class Parser {
    *   ;
    */
   BreakStatement() {
-    this._eat('break');
-    this._eat(';');
+    this._eat("break");
+    this._eat(";");
     return factory.BreakStatement();
   }
 
@@ -313,8 +313,8 @@ export class Parser {
    *   ;
    */
   ContinueStatement() {
-    this._eat('continue');
-    this._eat(';');
+    this._eat("continue");
+    this._eat(";");
     return factory.ContinueStatement();
   }
 
@@ -325,13 +325,13 @@ export class Parser {
    *   ;
    */
   IfStatement() {
-    this._eat('if');
-    this._eat('(');
+    this._eat("if");
+    this._eat("(");
     const test = this.Expression();
-    this._eat(')');
+    this._eat(")");
     const consequent = this.Statement();
-    const alternate = this._lookahead?.type === 'else'
-      ? this._eat('else') && this.Statement()
+    const alternate = this._lookahead?.type === "else"
+      ? this._eat("else") && this.Statement()
       : null;
     return factory.IfStatement(test, consequent, alternate);
   }
@@ -354,7 +354,7 @@ export class Parser {
    */
   VariableStatement() {
     const variableStatement = this.VariableStatementInit();
-    this._eat(';');
+    this._eat(";");
     return variableStatement;
   }
 
@@ -368,7 +368,7 @@ export class Parser {
     const declarations = Array<VariableDeclarationNode>();
     do {
       declarations.push(this.VariableDeclaration());
-    } while (this._lookahead?.type === ',' && this._eat(','));
+    } while (this._lookahead?.type === "," && this._eat(","));
     return declarations;
   }
 
@@ -381,7 +381,7 @@ export class Parser {
     const id = this.Identifier();
 
     // OptVariableInitializer
-    const init = this._lookahead?.type !== ';' && this._lookahead?.type !== ','
+    const init = this._lookahead?.type !== ";" && this._lookahead?.type !== ","
       ? this.VariableInitializer()
       : null;
 
@@ -394,7 +394,7 @@ export class Parser {
    *   ;
    */
   VariableInitializer() {
-    this._eat('SIMPLE_ASSIGN');
+    this._eat("SIMPLE_ASSIGN");
     return this.AssignmentExpression();
   }
 
@@ -404,7 +404,7 @@ export class Parser {
    *   ;
    */
   EmptyStatement() {
-    this._eat(';');
+    this._eat(";");
     return factory.EmptyStatement();
   }
 
@@ -414,9 +414,9 @@ export class Parser {
    *   ;
    */
   BlockStatement() {
-    this._eat('{');
-    const body = this._lookahead?.type === '}' ? [] : this.StatementList('}');
-    this._eat('}');
+    this._eat("{");
+    const body = this._lookahead?.type === "}" ? [] : this.StatementList("}");
+    this._eat("}");
     return factory.BlockStatement(body);
   }
 
@@ -427,7 +427,7 @@ export class Parser {
    */
   ExpressionStatement() {
     const expression = this.Expression();
-    this._eat(';');
+    this._eat(";");
     return factory.ExpressionStatement(expression);
   }
 
@@ -466,7 +466,7 @@ export class Parser {
    *   ;
    */
   Identifier() {
-    const name = this._eat('IDENTIFIER').value;
+    const name = this._eat("IDENTIFIER").value;
     return factory.Identifier(name);
   }
 
@@ -474,17 +474,17 @@ export class Parser {
    * Extra check whether it's valid assignment target.
    */
   _checkValidAssignmentTarget(node: ExpressionNode) {
-    if (node.type === 'Identifier' || node.type === 'MemberExpression') {
+    if (node.type === "Identifier" || node.type === "MemberExpression") {
       return node;
     }
-    throw new SyntaxError('Invalid left-hand side in assignment expression');
+    throw new SyntaxError("Invalid left-hand side in assignment expression");
   }
 
   /**
    * Whether the token is an assignment operator.
    */
   _isAssignmentOperator(tokenType?: TokenType) {
-    return tokenType === 'SIMPLE_ASSIGN' || tokenType === 'COMPLEX_ASSIGN';
+    return tokenType === "SIMPLE_ASSIGN" || tokenType === "COMPLEX_ASSIGN";
   }
 
   /**
@@ -494,10 +494,10 @@ export class Parser {
    *   ;
    */
   AssignmentOperator() {
-    if (this._lookahead?.type === 'SIMPLE_ASSIGN') {
-      return this._eat('SIMPLE_ASSIGN');
+    if (this._lookahead?.type === "SIMPLE_ASSIGN") {
+      return this._eat("SIMPLE_ASSIGN");
     }
-    return this._eat('COMPLEX_ASSIGN');
+    return this._eat("COMPLEX_ASSIGN");
   }
 
   /**
@@ -511,7 +511,7 @@ export class Parser {
    *   ;
    */
   LogicalORExpression() {
-    return this._LogicalExpression('LogicalANDExpression', 'LOGICAL_OR');
+    return this._LogicalExpression("LogicalANDExpression", "LOGICAL_OR");
   }
 
   /**
@@ -525,7 +525,7 @@ export class Parser {
    *   ;
    */
   LogicalANDExpression() {
-    return this._LogicalExpression('EqualityExpression', 'LOGICAL_AND');
+    return this._LogicalExpression("EqualityExpression", "LOGICAL_AND");
   }
 
   /**
@@ -540,7 +540,7 @@ export class Parser {
    *   ;
    */
   EqualityExpression() {
-    return this._BinaryExpression('RelationalExpression', 'EQUALITY_OPERATOR');
+    return this._BinaryExpression("RelationalExpression", "EQUALITY_OPERATOR");
   }
 
   /**
@@ -557,7 +557,7 @@ export class Parser {
    *   ;
    */
   RelationalExpression() {
-    return this._BinaryExpression('AdditiveExpression', 'RELATIONAL_OPERATOR');
+    return this._BinaryExpression("AdditiveExpression", "RELATIONAL_OPERATOR");
   }
 
   /**
@@ -568,8 +568,8 @@ export class Parser {
    */
   AdditiveExpression() {
     return this._BinaryExpression(
-      'MultiplicativeExpression',
-      'ADDITIVE_OPERATOR',
+      "MultiplicativeExpression",
+      "ADDITIVE_OPERATOR",
     );
   }
 
@@ -581,8 +581,8 @@ export class Parser {
    */
   MultiplicativeExpression() {
     return this._BinaryExpression(
-      'UnaryExpression',
-      'MULTIPLICATIVE_OPERATOR',
+      "UnaryExpression",
+      "MULTIPLICATIVE_OPERATOR",
     );
   }
 
@@ -590,7 +590,7 @@ export class Parser {
    * Generic helper for LogicalExpression nodes.
    */
   _LogicalExpression(
-    builderName: 'LogicalANDExpression' | 'EqualityExpression',
+    builderName: "LogicalANDExpression" | "EqualityExpression",
     operatorToken: OperatorType,
   ): ExpressionNode {
     let left = this[builderName]();
@@ -611,12 +611,12 @@ export class Parser {
    */
   _BinaryExpression(
     builderName:
-      | 'UnaryExpression'
-      | 'EqualityExpression'
-      | 'RelationalExpression'
-      | 'AdditiveExpression'
-      | 'MultiplicativeExpression'
-      | 'PrimaryExpression',
+      | "UnaryExpression"
+      | "EqualityExpression"
+      | "RelationalExpression"
+      | "AdditiveExpression"
+      | "MultiplicativeExpression"
+      | "PrimaryExpression",
     operatorToken: OperatorType,
   ): ExpressionNode {
     let left = this[builderName]();
@@ -642,11 +642,11 @@ export class Parser {
   UnaryExpression(): ExpressionNode {
     let operator;
     switch (this._lookahead?.type) {
-      case 'ADDITIVE_OPERATOR':
-        operator = this._eat('ADDITIVE_OPERATOR').value;
+      case "ADDITIVE_OPERATOR":
+        operator = this._eat("ADDITIVE_OPERATOR").value;
         break;
-      case 'LOGICAL_NOT':
-        operator = this._eat('LOGICAL_NOT').value;
+      case "LOGICAL_NOT":
+        operator = this._eat("LOGICAL_NOT").value;
         break;
     }
     if (!operator) return this.LeftHandSideExpression();
@@ -671,7 +671,7 @@ export class Parser {
    */
   CallMemberExpression(): ExpressionNode {
     // Super call:
-    if (this._lookahead?.type === 'super') {
+    if (this._lookahead?.type === "super") {
       return this._CallExpression(this.Super());
     }
 
@@ -679,7 +679,7 @@ export class Parser {
     const member = this.MemberExpression();
 
     // See if we have a call expression:
-    if (this._lookahead?.type === '(') {
+    if (this._lookahead?.type === "(") {
       return this._CallExpression(member);
     }
 
@@ -703,7 +703,7 @@ export class Parser {
   _CallExpression(callee: ExpressionNode) {
     let callExpression = factory.CallExpression(callee, this.Arguments());
 
-    if (this._lookahead?.type === '(') {
+    if (this._lookahead?.type === "(") {
       callExpression = this._CallExpression(callExpression);
     }
 
@@ -716,13 +716,13 @@ export class Parser {
    *   ;
    */
   Arguments() {
-    this._eat('(');
+    this._eat("(");
 
-    const argumentList = this._lookahead?.type !== ')'
+    const argumentList = this._lookahead?.type !== ")"
       ? this.ArgumentList()
       : [];
 
-    this._eat(')');
+    this._eat(")");
 
     return argumentList;
   }
@@ -738,7 +738,7 @@ export class Parser {
 
     do {
       argumentList.push(this.AssignmentExpression());
-    } while (this._lookahead?.type === ',' && this._eat(','));
+    } while (this._lookahead?.type === "," && this._eat(","));
 
     return argumentList;
   }
@@ -753,19 +753,19 @@ export class Parser {
   MemberExpression() {
     let object = this.PrimaryExpression();
 
-    while (this._lookahead?.type === '.' || this._lookahead?.type === '[') {
+    while (this._lookahead?.type === "." || this._lookahead?.type === "[") {
       // MemberExpression '.' Identifier
-      if (this._lookahead?.type === '.') {
-        this._eat('.');
+      if (this._lookahead?.type === ".") {
+        this._eat(".");
         const property = this.Identifier();
         object = factory.MemberExpression(false, object, property);
       }
 
       // MemberExpression '[' Expression ']'
-      if (this._lookahead?.type === '[') {
-        this._eat('[');
+      if (this._lookahead?.type === "[") {
+        this._eat("[");
         const property = this.Expression();
-        this._eat(']');
+        this._eat("]");
         object = factory.MemberExpression(true, object, property);
       }
     }
@@ -787,13 +787,13 @@ export class Parser {
       return this.Literal();
     }
     switch (this._lookahead?.type) {
-      case '(':
+      case "(":
         return this.ParenthesizedExpression();
-      case 'IDENTIFIER':
+      case "IDENTIFIER":
         return this.Identifier();
-      case 'this':
+      case "this":
         return this.ThisExpression();
-      case 'new':
+      case "new":
         return this.NewExpression();
       default:
         return this.LeftHandSideExpression();
@@ -806,7 +806,7 @@ export class Parser {
    *   ;
    */
   NewExpression() {
-    this._eat('new');
+    this._eat("new");
     return factory.NewExpression(this.MemberExpression(), this.Arguments());
   }
 
@@ -816,7 +816,7 @@ export class Parser {
    *   ;
    */
   ThisExpression() {
-    this._eat('this');
+    this._eat("this");
     return factory.ThisExpression();
   }
 
@@ -826,7 +826,7 @@ export class Parser {
    *   ;
    */
   Super() {
-    this._eat('super');
+    this._eat("super");
     return factory.Super();
   }
 
@@ -835,11 +835,11 @@ export class Parser {
    */
   _isLiteral(tokenType?: TokenType) {
     return (
-      tokenType === 'NUMBER' ||
-      tokenType === 'STRING' ||
-      tokenType === 'true' ||
-      tokenType === 'false' ||
-      tokenType === 'null'
+      tokenType === "NUMBER" ||
+      tokenType === "STRING" ||
+      tokenType === "true" ||
+      tokenType === "false" ||
+      tokenType === "null"
     );
   }
 
@@ -849,9 +849,9 @@ export class Parser {
    *   ;
    */
   ParenthesizedExpression() {
-    this._eat('(');
+    this._eat("(");
     const expression = this.Expression();
-    this._eat(')');
+    this._eat(")");
     return expression;
   }
 
@@ -865,15 +865,15 @@ export class Parser {
    */
   Literal() {
     switch (this._lookahead?.type) {
-      case 'NUMBER':
+      case "NUMBER":
         return this.NumericLiteral();
-      case 'STRING':
+      case "STRING":
         return this.StringLiteral();
-      case 'true':
+      case "true":
         return this.BooleanLiteral(true);
-      case 'false':
+      case "false":
         return this.BooleanLiteral(false);
-      case 'null':
+      case "null":
         return this.NullLiteral();
     }
     throw new SyntaxError(`Literal: unexpected literal productuon`);
@@ -886,7 +886,7 @@ export class Parser {
    *   ;
    */
   BooleanLiteral(value: boolean) {
-    this._eat(value ? 'true' : 'false');
+    this._eat(value ? "true" : "false");
     return factory.BooleanLiteral(value);
   }
 
@@ -896,7 +896,7 @@ export class Parser {
    *   ;
    */
   NullLiteral() {
-    this._eat('null');
+    this._eat("null");
     return factory.NullLiteral();
   }
 
@@ -906,7 +906,7 @@ export class Parser {
    *   ;
    */
   StringLiteral() {
-    const token = this._eat('STRING');
+    const token = this._eat("STRING");
     return factory.StringLiteral(token.value.slice(1, -1));
   }
 
@@ -916,7 +916,7 @@ export class Parser {
    *   ;
    */
   NumericLiteral() {
-    const token = this._eat('NUMBER');
+    const token = this._eat("NUMBER");
     return factory.NumericLiteral(Number(token.value));
   }
 

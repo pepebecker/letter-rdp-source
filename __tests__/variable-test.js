@@ -6,22 +6,22 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   // Simple variable declaration:
   test(`let x = 42;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'VariableStatement',
+        type: "VariableStatement",
         declarations: [
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             init: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 42,
             },
           },
@@ -32,16 +32,16 @@ export default test => {
 
   // Variable declaration, no init:
   test(`let x;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'VariableStatement',
+        type: "VariableStatement",
         declarations: [
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             init: null,
           },
@@ -52,24 +52,24 @@ export default test => {
 
   // Multiple variable declarations, no init:
   test(`let x, y;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'VariableStatement',
+        type: "VariableStatement",
         declarations: [
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             init: null,
           },
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'y',
+              type: "Identifier",
+              name: "y",
             },
             init: null,
           },
@@ -80,27 +80,27 @@ export default test => {
 
   // Multiple variable declarations:
   test(`let x, y = 42;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'VariableStatement',
+        type: "VariableStatement",
         declarations: [
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             init: null,
           },
           {
-            type: 'VariableDeclaration',
+            type: "VariableDeclaration",
             id: {
-              type: 'Identifier',
-              name: 'y',
+              type: "Identifier",
+              name: "y",
             },
             init: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 42,
             },
           },

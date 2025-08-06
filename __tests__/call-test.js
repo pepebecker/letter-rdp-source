@@ -6,25 +6,24 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `foo(x);`,
-
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'CallExpression',
+            type: "CallExpression",
             callee: {
-              type: 'Identifier',
-              name: 'foo',
+              type: "Identifier",
+              name: "foo",
             },
             arguments: [
               {
-                type: 'Identifier',
-                name: 'x',
+                type: "Identifier",
+                name: "x",
               },
             ],
           },
@@ -35,24 +34,23 @@ export default test => {
 
   test(
     `foo(x)();`,
-
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'CallExpression',
+            type: "CallExpression",
             callee: {
-              type: 'CallExpression',
+              type: "CallExpression",
               callee: {
-                type: 'Identifier',
-                name: 'foo',
+                type: "Identifier",
+                name: "foo",
               },
               arguments: [
                 {
-                  type: 'Identifier',
-                  name: 'x',
+                  type: "Identifier",
+                  name: "x",
                 },
               ],
             },
@@ -65,34 +63,33 @@ export default test => {
 
   test(
     `console.log(x, y);`,
-
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'CallExpression',
+            type: "CallExpression",
             callee: {
-              type: 'MemberExpression',
+              type: "MemberExpression",
               computed: false,
               object: {
-                type: 'Identifier',
-                name: 'console',
+                type: "Identifier",
+                name: "console",
               },
               property: {
-                type: 'Identifier',
-                name: 'log',
+                type: "Identifier",
+                name: "log",
               },
             },
             arguments: [
               {
-                type: 'Identifier',
-                name: 'x',
+                type: "Identifier",
+                name: "x",
               },
               {
-                type: 'Identifier',
-                name: 'y',
+                type: "Identifier",
+                name: "y",
               },
             ],
           },

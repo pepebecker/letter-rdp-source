@@ -6,15 +6,15 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   // NumericLiteral
   test(`42;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'NumericLiteral',
+          type: "NumericLiteral",
           value: 42,
         },
       },
@@ -23,13 +23,13 @@ export default test => {
 
   // StringLiteral
   test(`"hello";`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'StringLiteral',
-          value: 'hello',
+          type: "StringLiteral",
+          value: "hello",
         },
       },
     ],
@@ -37,13 +37,13 @@ export default test => {
 
   // StringLiteral
   test(`'hello';`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'StringLiteral',
-          value: 'hello',
+          type: "StringLiteral",
+          value: "hello",
         },
       },
     ],

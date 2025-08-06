@@ -6,24 +6,24 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   // Addition:
   // left: 2
   // right: 2
   test(`2 + 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '+',
+          type: "BinaryExpression",
+          operator: "+",
           left: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
         },
@@ -35,27 +35,27 @@ export default test => {
   // left: 3 + 2
   // right: 2
   test(`3 + 2 - 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '-',
+          type: "BinaryExpression",
+          operator: "-",
           left: {
-            type: 'BinaryExpression',
-            operator: '+',
+            type: "BinaryExpression",
+            operator: "+",
             left: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 3,
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
         },
@@ -64,19 +64,19 @@ export default test => {
   });
 
   test(`2 * 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '*',
+          type: "BinaryExpression",
+          operator: "*",
           left: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
         },
@@ -85,27 +85,27 @@ export default test => {
   });
 
   test(`2 * 2 * 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '*',
+          type: "BinaryExpression",
+          operator: "*",
           left: {
-            type: 'BinaryExpression',
-            operator: '*',
+            type: "BinaryExpression",
+            operator: "*",
             left: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
         },
@@ -115,26 +115,26 @@ export default test => {
 
   // Precedence of operations:
   test(`2 + 2 * 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '+',
+          type: "BinaryExpression",
+          operator: "+",
           left: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
           right: {
-            type: 'BinaryExpression',
-            operator: '*',
+            type: "BinaryExpression",
+            operator: "*",
             left: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
           },
@@ -145,27 +145,27 @@ export default test => {
 
   // Precedence of operations:
   test(`(2 + 2) * 2;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '*',
+          type: "BinaryExpression",
+          operator: "*",
           left: {
-            type: 'BinaryExpression',
-            operator: '+',
+            type: "BinaryExpression",
+            operator: "+",
             left: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 2,
             },
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 2,
           },
         },

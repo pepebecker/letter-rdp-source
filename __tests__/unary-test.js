@@ -6,35 +6,35 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
-  test('-x;', {
-    type: 'Program',
+export default (test) => {
+  test("-x;", {
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'UnaryExpression',
-          operator: '-',
+          type: "UnaryExpression",
+          operator: "-",
           argument: {
-            type: 'Identifier',
-            name: 'x',
+            type: "Identifier",
+            name: "x",
           },
         },
       },
     ],
   });
 
-  test('!x;', {
-    type: 'Program',
+  test("!x;", {
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'UnaryExpression',
-          operator: '!',
+          type: "UnaryExpression",
+          operator: "!",
           argument: {
-            type: 'Identifier',
-            name: 'x',
+            type: "Identifier",
+            name: "x",
           },
         },
       },

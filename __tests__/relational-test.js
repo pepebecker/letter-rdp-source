@@ -6,21 +6,21 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
-  test('x > 0;', {
-    type: 'Program',
+export default (test) => {
+  test("x > 0;", {
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '>',
+          type: "BinaryExpression",
+          operator: ">",
           left: {
-            type: 'Identifier',
-            name: 'x',
+            type: "Identifier",
+            name: "x",
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 0,
           },
         },

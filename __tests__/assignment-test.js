@@ -6,22 +6,22 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   // Simple assignment:
   test(`x = 42;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'AssignmentExpression',
-          operator: '=',
+          type: "AssignmentExpression",
+          operator: "=",
           left: {
-            type: 'Identifier',
-            name: 'x',
+            type: "Identifier",
+            name: "x",
           },
           right: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 42,
           },
         },
@@ -31,26 +31,26 @@ export default test => {
 
   // Chained assignment:
   test(`x = y = 42;`, {
-    type: 'Program',
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'AssignmentExpression',
-          operator: '=',
+          type: "AssignmentExpression",
+          operator: "=",
           left: {
-            type: 'Identifier',
-            name: 'x',
+            type: "Identifier",
+            name: "x",
           },
           right: {
-            type: 'AssignmentExpression',
-            operator: '=',
+            type: "AssignmentExpression",
+            operator: "=",
             left: {
-              type: 'Identifier',
-              name: 'y',
+              type: "Identifier",
+              name: "y",
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 42,
             },
           },

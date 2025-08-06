@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
 
@@ -14,20 +14,20 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'MemberExpression',
+            type: "MemberExpression",
             computed: false,
             object: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             property: {
-              type: 'Identifier',
-              name: 'y',
+              type: "Identifier",
+              name: "y",
             },
           },
         },
@@ -42,27 +42,27 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'AssignmentExpression',
-            operator: '=',
+            type: "AssignmentExpression",
+            operator: "=",
             left: {
-              type: 'MemberExpression',
+              type: "MemberExpression",
               computed: false,
               object: {
-                type: 'Identifier',
-                name: 'x',
+                type: "Identifier",
+                name: "x",
               },
               property: {
-                type: 'Identifier',
-                name: 'y',
+                type: "Identifier",
+                name: "y",
               },
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 1,
             },
           },
@@ -78,27 +78,27 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'AssignmentExpression',
-            operator: '=',
+            type: "AssignmentExpression",
+            operator: "=",
             left: {
-              type: 'MemberExpression',
+              type: "MemberExpression",
               computed: true,
               object: {
-                type: 'Identifier',
-                name: 'x',
+                type: "Identifier",
+                name: "x",
               },
               property: {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 0,
               },
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 1,
             },
           },
@@ -114,36 +114,36 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'MemberExpression',
+            type: "MemberExpression",
             computed: true,
             object: {
-              type: 'MemberExpression',
+              type: "MemberExpression",
               computed: false,
               object: {
-                type: 'MemberExpression',
+                type: "MemberExpression",
                 computed: false,
                 object: {
-                  type: 'Identifier',
-                  name: 'a',
+                  type: "Identifier",
+                  name: "a",
                 },
                 property: {
-                  type: 'Identifier',
-                  name: 'b',
+                  type: "Identifier",
+                  name: "b",
                 },
               },
               property: {
-                type: 'Identifier',
-                name: 'c',
+                type: "Identifier",
+                name: "c",
               },
             },
             property: {
-              type: 'StringLiteral',
-              value: 'd',
+              type: "StringLiteral",
+              value: "d",
             },
           },
         },

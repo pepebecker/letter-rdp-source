@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
     "hello";
@@ -15,19 +15,19 @@ export default test => {
 
   `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'StringLiteral',
-            value: 'hello',
+            type: "StringLiteral",
+            value: "hello",
           },
         },
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'NumericLiteral',
+            type: "NumericLiteral",
             value: 42,
           },
         },

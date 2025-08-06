@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
 
@@ -17,35 +17,35 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'FunctionDeclaration',
+          type: "FunctionDeclaration",
           name: {
-            type: 'Identifier',
-            name: 'square',
+            type: "Identifier",
+            name: "square",
           },
           params: [
             {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
           ],
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'ReturnStatement',
+                type: "ReturnStatement",
                 argument: {
-                  type: 'BinaryExpression',
-                  operator: '*',
+                  type: "BinaryExpression",
+                  operator: "*",
                   left: {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
                   right: {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
                 },
               },
@@ -66,20 +66,20 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'FunctionDeclaration',
+          type: "FunctionDeclaration",
           name: {
-            type: 'Identifier',
-            name: 'empty',
+            type: "Identifier",
+            name: "empty",
           },
           params: [],
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'ReturnStatement',
+                type: "ReturnStatement",
                 argument: null,
               },
             ],

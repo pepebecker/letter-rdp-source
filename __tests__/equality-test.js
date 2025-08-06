@@ -6,29 +6,29 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
-  test('x > 0 == true;', {
-    type: 'Program',
+export default (test) => {
+  test("x > 0 == true;", {
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '==',
+          type: "BinaryExpression",
+          operator: "==",
           left: {
-            type: 'BinaryExpression',
-            operator: '>',
+            type: "BinaryExpression",
+            operator: ">",
             left: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 0,
             },
           },
           right: {
-            type: 'BooleanLiteral',
+            type: "BooleanLiteral",
             value: true,
           },
         },
@@ -36,28 +36,28 @@ export default test => {
     ],
   });
 
-  test('x >= 0 != false;', {
-    type: 'Program',
+  test("x >= 0 != false;", {
+    type: "Program",
     body: [
       {
-        type: 'ExpressionStatement',
+        type: "ExpressionStatement",
         expression: {
-          type: 'BinaryExpression',
-          operator: '!=',
+          type: "BinaryExpression",
+          operator: "!=",
           left: {
-            type: 'BinaryExpression',
-            operator: '>=',
+            type: "BinaryExpression",
+            operator: ">=",
             left: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 0,
             },
           },
           right: {
-            type: 'BooleanLiteral',
+            type: "BooleanLiteral",
             value: false,
           },
         },

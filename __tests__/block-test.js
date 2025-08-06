@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
 
@@ -18,24 +18,24 @@ export default test => {
 
   `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'BlockStatement',
+          type: "BlockStatement",
           body: [
             {
-              type: 'ExpressionStatement',
+              type: "ExpressionStatement",
               expression: {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 42,
               },
             },
 
             {
-              type: 'ExpressionStatement',
+              type: "ExpressionStatement",
               expression: {
-                type: 'StringLiteral',
-                value: 'hello',
+                type: "StringLiteral",
+                value: "hello",
               },
             },
           ],
@@ -55,10 +55,10 @@ export default test => {
 
   `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'BlockStatement',
+          type: "BlockStatement",
           body: [],
         },
       ],
@@ -79,26 +79,26 @@ export default test => {
 
   `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'BlockStatement',
+          type: "BlockStatement",
           body: [
             {
-              type: 'ExpressionStatement',
+              type: "ExpressionStatement",
               expression: {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 42,
               },
             },
             {
-              type: 'BlockStatement',
+              type: "BlockStatement",
               body: [
                 {
-                  type: 'ExpressionStatement',
+                  type: "ExpressionStatement",
                   expression: {
-                    type: 'StringLiteral',
-                    value: 'hello',
+                    type: "StringLiteral",
+                    value: "hello",
                   },
                 },
               ],

@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
 
@@ -16,36 +16,36 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'WhileStatement',
+          type: "WhileStatement",
           test: {
-            type: 'BinaryExpression',
-            operator: '>',
+            type: "BinaryExpression",
+            operator: ">",
             left: {
-              type: 'Identifier',
-              name: 'x',
+              type: "Identifier",
+              name: "x",
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 10,
             },
           },
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'ExpressionStatement',
+                type: "ExpressionStatement",
                 expression: {
-                  type: 'AssignmentExpression',
-                  operator: '-=',
+                  type: "AssignmentExpression",
+                  operator: "-=",
                   left: {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
                   right: {
-                    type: 'NumericLiteral',
+                    type: "NumericLiteral",
                     value: 1,
                   },
                 },

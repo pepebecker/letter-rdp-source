@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
     class Point {
@@ -21,80 +21,79 @@ export default test => {
     }
 
     `,
-
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ClassDeclaration',
+          type: "ClassDeclaration",
           id: {
-            type: 'Identifier',
-            name: 'Point',
+            type: "Identifier",
+            name: "Point",
           },
           superClass: null,
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'FunctionDeclaration',
+                type: "FunctionDeclaration",
                 name: {
-                  type: 'Identifier',
-                  name: 'constructor',
+                  type: "Identifier",
+                  name: "constructor",
                 },
                 params: [
                   {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
                   {
-                    type: 'Identifier',
-                    name: 'y',
+                    type: "Identifier",
+                    name: "y",
                   },
                 ],
                 body: {
-                  type: 'BlockStatement',
+                  type: "BlockStatement",
                   body: [
                     {
-                      type: 'ExpressionStatement',
+                      type: "ExpressionStatement",
                       expression: {
-                        type: 'AssignmentExpression',
+                        type: "AssignmentExpression",
                         left: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'x',
+                            type: "Identifier",
+                            name: "x",
                           },
                         },
-                        operator: '=',
+                        operator: "=",
                         right: {
-                          type: 'Identifier',
-                          name: 'x',
+                          type: "Identifier",
+                          name: "x",
                         },
                       },
                     },
                     {
-                      type: 'ExpressionStatement',
+                      type: "ExpressionStatement",
                       expression: {
-                        type: 'AssignmentExpression',
+                        type: "AssignmentExpression",
                         left: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'y',
+                            type: "Identifier",
+                            name: "y",
                           },
                         },
-                        operator: '=',
+                        operator: "=",
                         right: {
-                          type: 'Identifier',
-                          name: 'y',
+                          type: "Identifier",
+                          name: "y",
                         },
                       },
                     },
@@ -102,40 +101,40 @@ export default test => {
                 },
               },
               {
-                type: 'FunctionDeclaration',
+                type: "FunctionDeclaration",
                 name: {
-                  type: 'Identifier',
-                  name: 'calc',
+                  type: "Identifier",
+                  name: "calc",
                 },
                 params: [],
                 body: {
-                  type: 'BlockStatement',
+                  type: "BlockStatement",
                   body: [
                     {
-                      type: 'ReturnStatement',
+                      type: "ReturnStatement",
                       argument: {
-                        type: 'BinaryExpression',
-                        operator: '+',
+                        type: "BinaryExpression",
+                        operator: "+",
                         left: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'x',
+                            type: "Identifier",
+                            name: "x",
                           },
                         },
                         right: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'y',
+                            type: "Identifier",
+                            name: "y",
                           },
                         },
                       },
@@ -166,84 +165,83 @@ export default test => {
     }
 
     `,
-
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ClassDeclaration',
+          type: "ClassDeclaration",
           id: {
-            type: 'Identifier',
-            name: 'Point3D',
+            type: "Identifier",
+            name: "Point3D",
           },
           superClass: {
-            type: 'Identifier',
-            name: 'Point',
+            type: "Identifier",
+            name: "Point",
           },
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'FunctionDeclaration',
+                type: "FunctionDeclaration",
                 name: {
-                  type: 'Identifier',
-                  name: 'constructor',
+                  type: "Identifier",
+                  name: "constructor",
                 },
                 params: [
                   {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
                   {
-                    type: 'Identifier',
-                    name: 'y',
+                    type: "Identifier",
+                    name: "y",
                   },
                   {
-                    type: 'Identifier',
-                    name: 'z',
+                    type: "Identifier",
+                    name: "z",
                   },
                 ],
                 body: {
-                  type: 'BlockStatement',
+                  type: "BlockStatement",
                   body: [
                     {
-                      type: 'ExpressionStatement',
+                      type: "ExpressionStatement",
                       expression: {
-                        type: 'CallExpression',
+                        type: "CallExpression",
                         callee: {
-                          type: 'Super',
+                          type: "Super",
                         },
                         arguments: [
                           {
-                            type: 'Identifier',
-                            name: 'x',
+                            type: "Identifier",
+                            name: "x",
                           },
                           {
-                            type: 'Identifier',
-                            name: 'y',
+                            type: "Identifier",
+                            name: "y",
                           },
                         ],
                       },
                     },
                     {
-                      type: 'ExpressionStatement',
+                      type: "ExpressionStatement",
                       expression: {
-                        type: 'AssignmentExpression',
+                        type: "AssignmentExpression",
                         left: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'z',
+                            type: "Identifier",
+                            name: "z",
                           },
                         },
-                        operator: '=',
+                        operator: "=",
                         right: {
-                          type: 'Identifier',
-                          name: 'z',
+                          type: "Identifier",
+                          name: "z",
                         },
                       },
                     },
@@ -251,36 +249,36 @@ export default test => {
                 },
               },
               {
-                type: 'FunctionDeclaration',
+                type: "FunctionDeclaration",
                 name: {
-                  type: 'Identifier',
-                  name: 'calc',
+                  type: "Identifier",
+                  name: "calc",
                 },
                 params: [],
                 body: {
-                  type: 'BlockStatement',
+                  type: "BlockStatement",
                   body: [
                     {
-                      type: 'ReturnStatement',
+                      type: "ReturnStatement",
                       argument: {
-                        type: 'BinaryExpression',
-                        operator: '+',
+                        type: "BinaryExpression",
+                        operator: "+",
                         left: {
-                          type: 'CallExpression',
+                          type: "CallExpression",
                           callee: {
-                            type: 'Super',
+                            type: "Super",
                           },
                           arguments: [],
                         },
                         right: {
-                          type: 'MemberExpression',
+                          type: "MemberExpression",
                           computed: false,
                           object: {
-                            type: 'ThisExpression',
+                            type: "ThisExpression",
                           },
                           property: {
-                            type: 'Identifier',
-                            name: 'z',
+                            type: "Identifier",
+                            name: "z",
                           },
                         },
                       },
@@ -302,27 +300,27 @@ export default test => {
     new Point3D(10, 20, 30);
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ExpressionStatement',
+          type: "ExpressionStatement",
           expression: {
-            type: 'NewExpression',
+            type: "NewExpression",
             callee: {
-              type: 'Identifier',
-              name: 'Point3D',
+              type: "Identifier",
+              name: "Point3D",
             },
             arguments: [
               {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 10,
               },
               {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 20,
               },
               {
-                type: 'NumericLiteral',
+                type: "NumericLiteral",
                 value: 30,
               },
             ],

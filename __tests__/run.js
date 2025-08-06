@@ -10,33 +10,33 @@
  * Main test runner.
  */
 
-import { Parser } from '../src/Parser.ts';
-import { deepEqual } from 'node:assert';
-import { diff } from 'npm:jest-diff';
+import { Parser } from "../src/Parser.ts";
+import { deepEqual } from "node:assert";
+import { diff } from "npm:jest-diff";
 
 /**
  * List of tests.
  */
 const tests = [
-  'literals-test',
-  'statement-list-test',
-  'block-test',
-  'empty-statement-test',
-  'math-test',
-  'assignment-test',
-  'variable-test',
-  'if-test',
-  'relational-test',
-  'equality-test',
-  'logical-test',
-  'unary-test',
-  'while-test',
-  'do-while-test',
-  'for-test',
-  'function-declaration-test',
-  'member-test',
-  'call-test',
-  'class-test',
+  "literals-test",
+  "statement-list-test",
+  "block-test",
+  "empty-statement-test",
+  "math-test",
+  "assignment-test",
+  "variable-test",
+  "if-test",
+  "relational-test",
+  "equality-test",
+  "logical-test",
+  "unary-test",
+  "while-test",
+  "do-while-test",
+  "for-test",
+  "function-declaration-test",
+  "member-test",
+  "call-test",
+  "class-test",
 ];
 
 const parser = new Parser();
@@ -123,5 +123,5 @@ for await (const testName of tests) {
 if (testsFailed > 0) {
   console.error(`❌ Some tests failed:`, testsFailed);
 } else {
-  console.log('✅ All tests passed!');
+  console.log("✅ All tests passed!");
 }

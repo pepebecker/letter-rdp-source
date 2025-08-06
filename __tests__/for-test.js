@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
+export default (test) => {
   test(
     `
     for (let i = 0; i < 10; i += 1) {
@@ -15,65 +15,65 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ForStatement',
+          type: "ForStatement",
           init: {
-            type: 'VariableStatement',
+            type: "VariableStatement",
             declarations: [
               {
-                type: 'VariableDeclaration',
+                type: "VariableDeclaration",
                 id: {
-                  type: 'Identifier',
-                  name: 'i',
+                  type: "Identifier",
+                  name: "i",
                 },
                 init: {
-                  type: 'NumericLiteral',
+                  type: "NumericLiteral",
                   value: 0,
                 },
               },
             ],
           },
           test: {
-            type: 'BinaryExpression',
-            operator: '<',
+            type: "BinaryExpression",
+            operator: "<",
             left: {
-              type: 'Identifier',
-              name: 'i',
+              type: "Identifier",
+              name: "i",
             },
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 10,
             },
           },
           update: {
-            type: 'AssignmentExpression',
+            type: "AssignmentExpression",
             left: {
-              type: 'Identifier',
-              name: 'i',
+              type: "Identifier",
+              name: "i",
             },
-            operator: '+=',
+            operator: "+=",
             right: {
-              type: 'NumericLiteral',
+              type: "NumericLiteral",
               value: 1,
             },
           },
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [
               {
-                type: 'ExpressionStatement',
+                type: "ExpressionStatement",
                 expression: {
-                  type: 'AssignmentExpression',
+                  type: "AssignmentExpression",
                   left: {
-                    type: 'Identifier',
-                    name: 'x',
+                    type: "Identifier",
+                    name: "x",
                   },
-                  operator: '+=',
+                  operator: "+=",
                   right: {
-                    type: 'Identifier',
-                    name: 'i',
+                    type: "Identifier",
+                    name: "i",
                   },
                 },
               },
@@ -92,15 +92,15 @@ export default test => {
 
     `,
     {
-      type: 'Program',
+      type: "Program",
       body: [
         {
-          type: 'ForStatement',
+          type: "ForStatement",
           init: null,
           test: null,
           update: null,
           body: {
-            type: 'BlockStatement',
+            type: "BlockStatement",
             body: [],
           },
         },

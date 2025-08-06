@@ -6,12 +6,12 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default test => {
-  test(';', {
-    type: 'Program',
+export default (test) => {
+  test(";", {
+    type: "Program",
     body: [
       {
-        type: 'EmptyStatement',
+        type: "EmptyStatement",
       },
     ],
   });
