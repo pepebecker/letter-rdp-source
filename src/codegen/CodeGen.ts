@@ -243,7 +243,7 @@ function forStatementToString(node: ForStatementNode, depth = 0) {
 }
 
 function functionDeclarationToString(node: FunctionDeclarationNode, depth = 0) {
-  let str = pad(depth) + kw`def `;
+  let str = pad(depth) + kw`fn `;
   str += id(node.name.name);
   str += sym`(`;
   str += node.params.map((p) => id(p.name)).join(", ");

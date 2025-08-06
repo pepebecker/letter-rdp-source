@@ -10,7 +10,7 @@ export default (test) => {
   test(
     `
 
-    def square(x) {
+    fn square(x) {
       return x * x;
     }
 
@@ -59,7 +59,7 @@ export default (test) => {
   test(
     `
 
-    def empty() {
+    fn empty() {
       return;
     }
 

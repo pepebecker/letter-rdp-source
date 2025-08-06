@@ -10,12 +10,12 @@ export default (test) => {
   test(
     `
     class Point {
-      def constructor(x, y) {
+      fn constructor(x, y) {
         this.x = x;
         this.y = y;
       }
 
-      def calc() {
+      fn calc() {
         return this.x + this.y;
       }
     }
@@ -154,12 +154,12 @@ export default (test) => {
   test(
     `
     class Point3D extends Point {
-      def constructor(x, y, z) {
+      fn constructor(x, y, z) {
         super(x, y);
         this.z = z;
       }
 
-      def calc() {
+      fn calc() {
         return super() + this.z;
       }
     }

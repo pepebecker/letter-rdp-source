@@ -33,7 +33,7 @@ export const TokenSpec = [
   [/^\bfor\b/, "for"],
   [/^\bcontinue\b/, "continue"],
   [/^\bbreak\b/, "break"],
-  [/^\bdef\b/, "def"],
+  [/^\bfn\b/, "fn"],
   [/^\breturn\b/, "return"],
   [/^\bclass\b/, "class"],
   [/^\bextends\b/, "extends"],

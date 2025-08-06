@@ -113,7 +113,7 @@ export class Parser {
         return this.BreakStatement();
       case "continue":
         return this.ContinueStatement();
-      case "def":
+      case "fn":
         return this.FunctionDeclaration();
       case "return":
         return this.ReturnStatement();
@@ -155,11 +155,11 @@ export class Parser {
 
   /**
    * FunctionDeclaration
-   *   : 'def' Identifier '(' OptFormalParameterList ')' BlockStatement
+   *   : 'fn' Identifier '(' OptFormalParameterList ')' BlockStatement
    *   ;
    */
   FunctionDeclaration() {
-    this._eat("def");
+    this._eat("fn");
     const name = this.Identifier();
 
     this._eat("(");
