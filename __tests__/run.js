@@ -10,9 +10,10 @@
  * Main test runner.
  */
 
-import { Parser } from "../src/Parser.ts";
 import { deepEqual } from "node:assert";
 import { diff } from "npm:jest-diff";
+import { Parser } from "../src/Parser.ts";
+import { toASTString } from "../src/codegen/ASTStringGen.ts";
 
 /**
  * List of tests.
@@ -84,7 +85,7 @@ function exec() {
 
   const ast = parser.parse(program);
 
-  console.log(JSON.stringify(ast, null, 2));
+  console.log(toASTString(ast));
 }
 
 // Manual test:
@@ -99,6 +100,7 @@ function test(program, expected) {
     ast = parser.parse(program);
     deepEqual(ast, expected);
   } catch (e) {
+    if (e.code !== "ERR_ASSERTION") throw e;
     const d = diff(expected, ast);
     if (d) throw new Error(d);
     throw e;

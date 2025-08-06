@@ -8,8 +8,10 @@
     "jsr:@std/internal@^1.0.6": "1.0.10",
     "jsr:@std/testing@*": "1.0.15",
     "npm:@types/node@*": "22.15.15",
+    "npm:chalk@*": "4.1.2",
     "npm:jest-diff@*": "30.0.5",
-    "npm:jest-diff@^30.0.5": "30.0.5"
+    "npm:jest-diff@^30.0.5": "30.0.5",
+    "npm:strip-ansi@*": "7.1.0"
   },
   "jsr": {
     "@std/assert@1.0.13": {
@@ -50,6 +52,9 @@
       "dependencies": [
         "undici-types"
       ]
+    },
+    "ansi-regex@6.1.0": {
+      "integrity": "sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA=="
     },
     "ansi-styles@4.3.0": {
       "integrity": "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==",
@@ -98,6 +103,12 @@
     },
     "react-is@18.3.1": {
       "integrity": "sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg=="
+    },
+    "strip-ansi@7.1.0": {
+      "integrity": "sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==",
+      "dependencies": [
+        "ansi-regex"
+      ]
     },
     "supports-color@7.2.0": {
       "integrity": "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==",

@@ -1,4 +1,4 @@
-#!/usr/bin/env deno --allow-read
+#!/usr/bin/env deno --allow-env --allow-read
 
 /**
  * Building a Parser from scratch
@@ -11,6 +11,7 @@
 'use strict';
 
 import { Parser } from '../src/Parser.ts';
+import { toASTString } from '../src/codegen/ASTStringGen.ts';
 
 import { readFileSync } from 'node:fs';
 
@@ -32,7 +33,7 @@ function main(argv) {
     ast = parser.parse(src);
   }
 
-  console.log(JSON.stringify(ast, null, 2));
+  console.log(toASTString(ast));
 }
 
 main(process.argv);
