@@ -6,7 +6,7 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-import { TokenSpec } from "./Token.js";
+import { Token, TokenSpec } from "./Token.ts";
 
 /**
  * Tokenizer class.
@@ -14,10 +14,13 @@ import { TokenSpec } from "./Token.js";
  * Lazily pulls a token from a stream.
  */
 export class Tokenizer {
+  _string = "";
+  _cursor = 0;
+
   /**
    * Initializes the string.
    */
-  init(string) {
+  init(string: string) {
     this._string = string;
     this._cursor = 0;
   }
@@ -25,21 +28,21 @@ export class Tokenizer {
   /**
    * Whether the tokenizer reached EOF.
    */
-  isEOF() {
+  isEOF(): boolean {
     return this._cursor === this._string.length;
   }
 
   /**
    * Whether we still have more tokens.
    */
-  hasMoreTokens() {
+  hasMoreTokens(): boolean {
     return this._cursor < this._string.length;
   }
 
   /**
    * Obtains next token.
    */
-  getNextToken() {
+  getNextToken(): Token | null {
     if (!this.hasMoreTokens()) {
       return null;
     }
@@ -71,7 +74,7 @@ export class Tokenizer {
   /**
    * Matches a token for a regular expression.
    */
-  _match(regexp, string) {
+  _match(regexp: RegExp, string: string) {
     const matched = regexp.exec(string);
     if (matched == null) {
       return null;

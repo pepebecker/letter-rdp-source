@@ -10,9 +10,9 @@
  * Main test runner.
  */
 
-import { Parser } from '../src/Parser.js';
-import { deepEqual } from 'assert';
-import { diff } from 'jest-diff';
+import { Parser } from '../src/Parser.ts';
+import { deepEqual } from 'node:assert';
+import { diff } from 'npm:jest-diff';
 
 /**
  * List of tests.
@@ -99,9 +99,9 @@ function test(program, expected) {
     ast = parser.parse(program);
     deepEqual(ast, expected);
   } catch (e) {
-    const d = diff(expected, ast)
-    if (d) throw new Error(d)
-    throw e
+    const d = diff(expected, ast);
+    if (d) throw new Error(d);
+    throw e;
   }
 }
 
@@ -123,5 +123,5 @@ for await (const testName of tests) {
 if (testsFailed > 0) {
   console.error(`❌ Some tests failed:`, testsFailed);
 } else {
-  console.log("✅ All tests passed!");
+  console.log('✅ All tests passed!');
 }

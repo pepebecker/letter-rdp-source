@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env deno --allow-read
 
 /**
  * Building a Parser from scratch
@@ -10,9 +10,9 @@
 
 'use strict';
 
-const {Parser} = require('../src/Parser');
+import { Parser } from '../src/Parser.ts';
 
-const fs = require('fs');
+import { readFileSync } from 'node:fs';
 
 function main(argv) {
   const [_node, _path, mode, exp] = argv;
@@ -28,7 +28,7 @@ function main(argv) {
   }
 
   if (mode === '-f') {
-    const src = fs.readFileSync(exp, 'utf-8');
+    const src = readFileSync(exp, 'utf-8');
     ast = parser.parse(src);
   }
 

@@ -70,4 +70,19 @@ export const TokenSpec = [
   // Strings
   [/^"[^"]*"/, "STRING"],
   [/^'[^']*'/, "STRING"],
-];
+] as const;
+
+export type TokenType = Exclude<typeof TokenSpec[number][1], null>;
+
+export type OperatorType =
+  | "ADDITIVE_OPERATOR"
+  | "MULTIPLICATIVE_OPERATOR"
+  | "RELATIONAL_OPERATOR"
+  | "EQUALITY_OPERATOR"
+  | "LOGICAL_AND"
+  | "LOGICAL_OR";
+
+export interface Token {
+  type: TokenType;
+  value: string;
+}
