@@ -12,11 +12,37 @@
 
 import { Tokenizer } from "./Tokenizer.ts";
 import {
-  type ExpressionNode,
-  factory,
-  type IdentifierNode,
-  type StatementNode,
-  type VariableDeclarationNode,
+  AssignmentExpression,
+  BinaryExpression,
+  BlockStatement,
+  BooleanLiteral,
+  BreakStatement,
+  CallExpression,
+  ClassDeclaration,
+  ContinueStatement,
+  DoWhileStatement,
+  EmptyStatement,
+  Expression,
+  ExpressionStatement,
+  ForStatement,
+  FunctionDeclaration,
+  Identifier,
+  IfStatement,
+  LogicalExpression,
+  MemberExpression,
+  NewExpression,
+  NullLiteral,
+  NumericLiteral,
+  Program,
+  ReturnStatement,
+  Statement,
+  StringLiteral,
+  SuperExpression,
+  ThisExpression,
+  UnaryExpression,
+  VariableDeclaration,
+  VariableStatement,
+  WhileStatement,
 } from "./AST.ts";
 import { OperatorType, Token, TokenType } from "./Token.ts";
 
@@ -46,7 +72,7 @@ export class Parser {
     // used for predictive parsing.
 
     this._lookahead = this._tokenizer.getNextToken();
-    if (this._lookahead === null) return factory.Program([]);
+    if (this._lookahead === null) return new Program([]);
 
     // Parse recursively starting from the main
     // entry point, the Program:
@@ -62,7 +88,7 @@ export class Parser {
    *   ;
    */
   Program() {
-    return factory.Program(this.StatementList());
+    return new Program(this.StatementList());
   }
 
   /**
@@ -94,7 +120,7 @@ export class Parser {
    *   | ClassDeclaration
    *   ;
    */
-  Statement(): StatementNode {
+  Statement(): Statement {
     switch (this._lookahead?.type) {
       case ";":
         return this.EmptyStatement();
@@ -140,7 +166,7 @@ export class Parser {
 
     const body = this.BlockStatement();
 
-    return factory.ClassDeclaration(id, superClass, body);
+    return new ClassDeclaration(id, superClass, body);
   }
 
   /**
@@ -172,7 +198,7 @@ export class Parser {
 
     const body = this.BlockStatement();
 
-    return factory.FunctionDeclaration(name, params, body);
+    return new FunctionDeclaration(name, params, body);
   }
 
   /**
@@ -182,7 +208,7 @@ export class Parser {
    *   ;
    */
   FormalParameterList() {
-    const params = Array<IdentifierNode>();
+    const params = Array<Identifier>();
 
     do {
       params.push(this.Identifier());
@@ -200,7 +226,7 @@ export class Parser {
     this._eat("return");
     const argument = this._lookahead?.type !== ";" ? this.Expression() : null;
     this._eat(";");
-    return factory.ReturnStatement(argument);
+    return new ReturnStatement(argument);
   }
 
   /**
@@ -236,7 +262,7 @@ export class Parser {
 
     const body = this.Statement();
 
-    return factory.WhileStatement(test, body);
+    return new WhileStatement(test, body);
   }
 
   /**
@@ -257,7 +283,7 @@ export class Parser {
 
     this._eat(";");
 
-    return factory.DoWhileStatement(body, test);
+    return new DoWhileStatement(body, test);
   }
 
   /**
@@ -280,7 +306,7 @@ export class Parser {
 
     const body = this.Statement();
 
-    return factory.ForStatement(init, test, update, body);
+    return new ForStatement(init, test, update, body);
   }
 
   /**
@@ -304,7 +330,7 @@ export class Parser {
   BreakStatement() {
     this._eat("break");
     this._eat(";");
-    return factory.BreakStatement();
+    return new BreakStatement();
   }
 
   /**
@@ -315,7 +341,7 @@ export class Parser {
   ContinueStatement() {
     this._eat("continue");
     this._eat(";");
-    return factory.ContinueStatement();
+    return new ContinueStatement();
   }
 
   /**
@@ -333,7 +359,7 @@ export class Parser {
     const alternate = this._lookahead?.type === "else"
       ? this._eat("else") && this.Statement()
       : null;
-    return factory.IfStatement(test, consequent, alternate);
+    return new IfStatement(test, consequent, alternate);
   }
 
   /**
@@ -345,7 +371,7 @@ export class Parser {
     const isConstant = this._lookahead?.type === "let";
     this._eat(this._lookahead!.type);
     const declarations = this.VariableDeclarationList();
-    return factory.VariableStatement(declarations, isConstant);
+    return new VariableStatement(declarations, isConstant);
   }
 
   /**
@@ -366,7 +392,7 @@ export class Parser {
    *   ;
    */
   VariableDeclarationList() {
-    const declarations = Array<VariableDeclarationNode>();
+    const declarations = Array<VariableDeclaration>();
     do {
       declarations.push(this.VariableDeclaration());
     } while (this._lookahead?.type === "," && this._eat(","));
@@ -386,7 +412,7 @@ export class Parser {
       ? this.VariableInitializer()
       : null;
 
-    return factory.VariableDeclaration(id, init);
+    return new VariableDeclaration(id, init);
   }
 
   /**
@@ -406,7 +432,7 @@ export class Parser {
    */
   EmptyStatement() {
     this._eat(";");
-    return factory.EmptyStatement();
+    return new EmptyStatement();
   }
 
   /**
@@ -418,7 +444,7 @@ export class Parser {
     this._eat("{");
     const body = this._lookahead?.type === "}" ? [] : this.StatementList("}");
     this._eat("}");
-    return factory.BlockStatement(body);
+    return new BlockStatement(body);
   }
 
   /**
@@ -429,7 +455,7 @@ export class Parser {
   ExpressionStatement() {
     const expression = this.Expression();
     this._eat(";");
-    return factory.ExpressionStatement(expression);
+    return new ExpressionStatement(expression);
   }
 
   /**
@@ -437,7 +463,7 @@ export class Parser {
    *   : AssignmentExpression
    *   ;
    */
-  Expression(): ExpressionNode {
+  Expression(): Expression {
     return this.AssignmentExpression();
   }
 
@@ -447,14 +473,14 @@ export class Parser {
    *   | LeftHandSideExpression AssignmentOperator AssignmentExpression
    *   ;
    */
-  AssignmentExpression(): ExpressionNode {
+  AssignmentExpression(): Expression {
     const left = this.LogicalORExpression();
 
     if (!this._isAssignmentOperator(this._lookahead?.type)) {
       return left;
     }
 
-    return factory.AssignmentExpression(
+    return new AssignmentExpression(
       this.AssignmentOperator().value,
       this._checkValidAssignmentTarget(left),
       this.AssignmentExpression(),
@@ -468,13 +494,13 @@ export class Parser {
    */
   Identifier() {
     const name = this._eat("IDENTIFIER").value;
-    return factory.Identifier(name);
+    return new Identifier(name);
   }
 
   /**
    * Extra check whether it's valid assignment target.
    */
-  _checkValidAssignmentTarget(node: ExpressionNode) {
+  _checkValidAssignmentTarget(node: Expression) {
     if (node.type === "Identifier" || node.type === "MemberExpression") {
       return node;
     }
@@ -593,7 +619,7 @@ export class Parser {
   _LogicalExpression(
     builderName: "LogicalANDExpression" | "EqualityExpression",
     operatorToken: OperatorType,
-  ): ExpressionNode {
+  ): Expression {
     let left = this[builderName]();
 
     while (this._lookahead?.type === operatorToken) {
@@ -601,7 +627,7 @@ export class Parser {
 
       const right = this[builderName]();
 
-      left = factory.LogicalExpression(operator, left, right);
+      left = new LogicalExpression(operator, left, right);
     }
 
     return left;
@@ -619,7 +645,7 @@ export class Parser {
       | "MultiplicativeExpression"
       | "PrimaryExpression",
     operatorToken: OperatorType,
-  ): ExpressionNode {
+  ): Expression {
     let left = this[builderName]();
 
     while (this._lookahead?.type === operatorToken) {
@@ -627,7 +653,7 @@ export class Parser {
 
       const right = this[builderName]();
 
-      left = factory.BinaryExpression(operator, left, right);
+      left = new BinaryExpression(operator, left, right);
     }
 
     return left;
@@ -640,7 +666,7 @@ export class Parser {
    *   | LOGICAL_NOT UnaryExpression
    *   ;
    */
-  UnaryExpression(): ExpressionNode {
+  UnaryExpression(): Expression {
     let operator;
     switch (this._lookahead?.type) {
       case "ADDITIVE_OPERATOR":
@@ -652,7 +678,7 @@ export class Parser {
     }
     if (!operator) return this.LeftHandSideExpression();
 
-    return factory.UnaryExpression(operator, this.UnaryExpression());
+    return new UnaryExpression(operator, this.UnaryExpression());
   }
 
   /**
@@ -660,7 +686,7 @@ export class Parser {
    *   : CallMemberExpression
    *   ;
    */
-  LeftHandSideExpression(): ExpressionNode {
+  LeftHandSideExpression(): Expression {
     return this.CallMemberExpression();
   }
 
@@ -670,10 +696,10 @@ export class Parser {
    *   | CallExpression
    *   ;
    */
-  CallMemberExpression(): ExpressionNode {
+  CallMemberExpression(): Expression {
     // Super call:
     if (this._lookahead?.type === "super") {
-      return this._CallExpression(this.Super());
+      return this._CallExpression(this.SuperExpression());
     }
 
     // Member part, might be part of a call:
@@ -701,8 +727,8 @@ export class Parser {
    *   | CallExpression
    *   ;
    */
-  _CallExpression(callee: ExpressionNode) {
-    let callExpression = factory.CallExpression(callee, this.Arguments());
+  _CallExpression(callee: Expression) {
+    let callExpression = new CallExpression(callee, this.Arguments());
 
     if (this._lookahead?.type === "(") {
       callExpression = this._CallExpression(callExpression);
@@ -735,7 +761,7 @@ export class Parser {
    *   ;
    */
   ArgumentList() {
-    const argumentList = Array<ExpressionNode>();
+    const argumentList = Array<Expression>();
 
     do {
       argumentList.push(this.AssignmentExpression());
@@ -759,7 +785,7 @@ export class Parser {
       if (this._lookahead?.type === ".") {
         this._eat(".");
         const property = this.Identifier();
-        object = factory.MemberExpression(false, object, property);
+        object = new MemberExpression(false, object, property);
       }
 
       // MemberExpression '[' Expression ']'
@@ -767,7 +793,7 @@ export class Parser {
         this._eat("[");
         const property = this.Expression();
         this._eat("]");
-        object = factory.MemberExpression(true, object, property);
+        object = new MemberExpression(true, object, property);
       }
     }
 
@@ -783,7 +809,7 @@ export class Parser {
    *   | NewExpression
    *   ;
    */
-  PrimaryExpression(): ExpressionNode {
+  PrimaryExpression(): Expression {
     if (this._isLiteral(this._lookahead?.type)) {
       return this.Literal();
     }
@@ -808,7 +834,7 @@ export class Parser {
    */
   NewExpression() {
     this._eat("new");
-    return factory.NewExpression(this.MemberExpression(), this.Arguments());
+    return new NewExpression(this.MemberExpression(), this.Arguments());
   }
 
   /**
@@ -818,7 +844,7 @@ export class Parser {
    */
   ThisExpression() {
     this._eat("this");
-    return factory.ThisExpression();
+    return new ThisExpression();
   }
 
   /**
@@ -826,9 +852,9 @@ export class Parser {
    *   : 'super'
    *   ;
    */
-  Super() {
+  SuperExpression() {
     this._eat("super");
-    return factory.Super();
+    return new SuperExpression();
   }
 
   /**
@@ -888,7 +914,7 @@ export class Parser {
    */
   BooleanLiteral(value: boolean) {
     this._eat(value ? "true" : "false");
-    return factory.BooleanLiteral(value);
+    return new BooleanLiteral(value);
   }
 
   /**
@@ -898,7 +924,7 @@ export class Parser {
    */
   NullLiteral() {
     this._eat("null");
-    return factory.NullLiteral();
+    return new NullLiteral();
   }
 
   /**
@@ -908,7 +934,7 @@ export class Parser {
    */
   StringLiteral() {
     const token = this._eat("STRING");
-    return factory.StringLiteral(token.value.slice(1, -1));
+    return new StringLiteral(token.value.slice(1, -1));
   }
 
   /**
@@ -918,7 +944,7 @@ export class Parser {
    */
   NumericLiteral() {
     const token = this._eat("NUMBER");
-    return factory.NumericLiteral(Number(token.value));
+    return new NumericLiteral(Number(token.value));
   }
 
   /**

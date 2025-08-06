@@ -6,86 +6,53 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  BinaryExpression,
+  BlockStatement,
+  FunctionDeclaration,
+  Identifier,
+  Program,
+  ReturnStatement,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `
-
     fn square(x) {
       return x * x;
     }
-
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "FunctionDeclaration",
-          name: {
-            type: "Identifier",
-            name: "square",
-          },
-          params: [
-            {
-              type: "Identifier",
-              name: "x",
-            },
-          ],
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "ReturnStatement",
-                argument: {
-                  type: "BinaryExpression",
-                  operator: "*",
-                  left: {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                  right: {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new FunctionDeclaration(
+        new Identifier("square"),
+        [new Identifier("x")],
+        new BlockStatement([
+          new ReturnStatement(
+            new BinaryExpression(
+              "*",
+              new Identifier("x"),
+              new Identifier("x"),
+            ),
+          ),
+        ]),
+      ),
+    ]),
   );
 
   test(
     `
-
     fn empty() {
       return;
     }
-
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "FunctionDeclaration",
-          name: {
-            type: "Identifier",
-            name: "empty",
-          },
-          params: [],
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "ReturnStatement",
-                argument: null,
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new FunctionDeclaration(
+        new Identifier("empty"),
+        [],
+        new BlockStatement([
+          new ReturnStatement(null),
+        ]),
+      ),
+    ]),
   );
 };

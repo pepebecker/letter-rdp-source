@@ -6,54 +6,41 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  AssignmentExpression,
+  BinaryExpression,
+  BlockStatement,
+  ExpressionStatement,
+  Identifier,
+  NumericLiteral,
+  Program,
+  WhileStatement,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `
-
     while (x > 10) {
       x -= 1;
     }
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "WhileStatement",
-          test: {
-            type: "BinaryExpression",
-            operator: ">",
-            left: {
-              type: "Identifier",
-              name: "x",
-            },
-            right: {
-              type: "NumericLiteral",
-              value: 10,
-            },
-          },
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "ExpressionStatement",
-                expression: {
-                  type: "AssignmentExpression",
-                  operator: "-=",
-                  left: {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                  right: {
-                    type: "NumericLiteral",
-                    value: 1,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new WhileStatement(
+        new BinaryExpression(
+          ">",
+          new Identifier("x"),
+          new NumericLiteral(10),
+        ),
+        new BlockStatement([
+          new ExpressionStatement(
+            new AssignmentExpression(
+              "-=",
+              new Identifier("x"),
+              new NumericLiteral(1),
+            ),
+          ),
+        ]),
+      ),
+    ]),
   );
 };

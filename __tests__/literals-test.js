@@ -6,46 +6,50 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  BooleanLiteral,
+  ExpressionStatement,
+  NumericLiteral,
+  Program,
+  StringLiteral,
+} from "../src/AST.ts";
+
 export default (test) => {
   // NumericLiteral
-  test(`42;`, {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "NumericLiteral",
-          value: 42,
-        },
-      },
-    ],
-  });
+  test(
+    `42;`,
+    new Program([
+      new ExpressionStatement(new NumericLiteral(42)),
+    ]),
+  );
+
+  // BooleanLiteral
+  test(
+    `true;`,
+    new Program([
+      new ExpressionStatement(new BooleanLiteral(true)),
+    ]),
+  );
+  test(
+    `false;`,
+    new Program([
+      new ExpressionStatement(new BooleanLiteral(false)),
+    ]),
+  );
 
   // StringLiteral
-  test(`"hello";`, {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "StringLiteral",
-          value: "hello",
-        },
-      },
-    ],
-  });
+  test(
+    `"hello";`,
+    new Program([
+      new ExpressionStatement(new StringLiteral("hello")),
+    ]),
+  );
 
   // StringLiteral
-  test(`'hello';`, {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "StringLiteral",
-          value: "hello",
-        },
-      },
-    ],
-  });
+  test(
+    `'hello';`,
+    new Program([
+      new ExpressionStatement(new StringLiteral("hello")),
+    ]),
+  );
 };

@@ -6,107 +6,81 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  Identifier,
+  NumericLiteral,
+  Program,
+  VariableDeclaration,
+  VariableStatement,
+} from "../src/AST.ts";
+
 export default (test) => {
   // Simple variable declaration:
-  test(`let x = 42;`, {
-    type: "Program",
-    body: [
-      {
-        type: "VariableStatement",
-        isConstant: true,
-        declarations: [
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "x",
-            },
-            init: {
-              type: "NumericLiteral",
-              value: 42,
-            },
-          },
+  test(
+    `let x = 42;`,
+    new Program([
+      new VariableStatement(
+        [
+          new VariableDeclaration(
+            new Identifier("x"),
+            new NumericLiteral(42),
+          ),
         ],
-      },
-    ],
-  });
+        true,
+      ),
+    ]),
+  );
 
   // Variable declaration, no init:
-  test(`var x;`, {
-    type: "Program",
-    body: [
-      {
-        type: "VariableStatement",
-        declarations: [
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "x",
-            },
-            init: null,
-          },
+  test(
+    `var x;`,
+    new Program([
+      new VariableStatement(
+        [
+          new VariableDeclaration(
+            new Identifier("x"),
+            null,
+          ),
         ],
-      },
-    ],
-  });
+      ),
+    ]),
+  );
 
   // Multiple variable declarations, no init:
-  test(`var x, y;`, {
-    type: "Program",
-    body: [
-      {
-        type: "VariableStatement",
-        declarations: [
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "x",
-            },
-            init: null,
-          },
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "y",
-            },
-            init: null,
-          },
+  test(
+    `var x, y;`,
+    new Program([
+      new VariableStatement(
+        [
+          new VariableDeclaration(
+            new Identifier("x"),
+            null,
+          ),
+          new VariableDeclaration(
+            new Identifier("y"),
+            null,
+          ),
         ],
-      },
-    ],
-  });
+      ),
+    ]),
+  );
 
   // Multiple variable declarations:
-  test(`var x, y = 42;`, {
-    type: "Program",
-    body: [
-      {
-        type: "VariableStatement",
-        declarations: [
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "x",
-            },
-            init: null,
-          },
-          {
-            type: "VariableDeclaration",
-            id: {
-              type: "Identifier",
-              name: "y",
-            },
-            init: {
-              type: "NumericLiteral",
-              value: 42,
-            },
-          },
+  test(
+    `var x, y = 42;`,
+    new Program([
+      new VariableStatement(
+        [
+          new VariableDeclaration(
+            new Identifier("x"),
+            null,
+          ),
+          new VariableDeclaration(
+            new Identifier("y"),
+            new NumericLiteral(42),
+          ),
         ],
-      },
-    ],
-  });
+      ),
+    ]),
+  );
 };

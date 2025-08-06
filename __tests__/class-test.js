@@ -6,6 +6,24 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  AssignmentExpression,
+  BinaryExpression,
+  BlockStatement,
+  CallExpression,
+  ClassDeclaration,
+  ExpressionStatement,
+  FunctionDeclaration,
+  Identifier,
+  MemberExpression,
+  NewExpression,
+  NumericLiteral,
+  Program,
+  ReturnStatement,
+  SuperExpression,
+  ThisExpression,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `
@@ -21,132 +39,68 @@ export default (test) => {
     }
 
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ClassDeclaration",
-          id: {
-            type: "Identifier",
-            name: "Point",
-          },
-          superClass: null,
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "FunctionDeclaration",
-                name: {
-                  type: "Identifier",
-                  name: "constructor",
-                },
-                params: [
-                  {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                  {
-                    type: "Identifier",
-                    name: "y",
-                  },
-                ],
-                body: {
-                  type: "BlockStatement",
-                  body: [
-                    {
-                      type: "ExpressionStatement",
-                      expression: {
-                        type: "AssignmentExpression",
-                        left: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "x",
-                          },
-                        },
-                        operator: "=",
-                        right: {
-                          type: "Identifier",
-                          name: "x",
-                        },
-                      },
-                    },
-                    {
-                      type: "ExpressionStatement",
-                      expression: {
-                        type: "AssignmentExpression",
-                        left: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "y",
-                          },
-                        },
-                        operator: "=",
-                        right: {
-                          type: "Identifier",
-                          name: "y",
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "FunctionDeclaration",
-                name: {
-                  type: "Identifier",
-                  name: "calc",
-                },
-                params: [],
-                body: {
-                  type: "BlockStatement",
-                  body: [
-                    {
-                      type: "ReturnStatement",
-                      argument: {
-                        type: "BinaryExpression",
-                        operator: "+",
-                        left: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "x",
-                          },
-                        },
-                        right: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "y",
-                          },
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
+    new Program([
+      new ClassDeclaration(
+        new Identifier("Point"),
+        null,
+        new BlockStatement([
+          new FunctionDeclaration(
+            new Identifier("constructor"),
+            [
+              new Identifier("x"),
+              new Identifier("y"),
             ],
-          },
-        },
-      ],
-    },
+            new BlockStatement(
+              [
+                new ExpressionStatement(
+                  new AssignmentExpression(
+                    "=",
+                    new MemberExpression(
+                      false,
+                      new ThisExpression(),
+                      new Identifier("x"),
+                    ),
+                    new Identifier("x"),
+                  ),
+                ),
+                new ExpressionStatement(
+                  new AssignmentExpression(
+                    "=",
+                    new MemberExpression(
+                      false,
+                      new ThisExpression(),
+                      new Identifier("y"),
+                    ),
+                    new Identifier("y"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new FunctionDeclaration(
+            new Identifier("calc"),
+            [],
+            new BlockStatement([
+              new ReturnStatement(
+                new BinaryExpression(
+                  "+",
+                  new MemberExpression(
+                    false,
+                    new ThisExpression(),
+                    new Identifier("x"),
+                  ),
+                  new MemberExpression(
+                    false,
+                    new ThisExpression(),
+                    new Identifier("y"),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+        ]),
+      ),
+    ]),
   );
 
   // Child class:
@@ -158,175 +112,85 @@ export default (test) => {
         super(x, y);
         this.z = z;
       }
-
       fn calc() {
         return super() + this.z;
       }
     }
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ClassDeclaration",
-          id: {
-            type: "Identifier",
-            name: "Point3D",
-          },
-          superClass: {
-            type: "Identifier",
-            name: "Point",
-          },
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "FunctionDeclaration",
-                name: {
-                  type: "Identifier",
-                  name: "constructor",
-                },
-                params: [
-                  {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                  {
-                    type: "Identifier",
-                    name: "y",
-                  },
-                  {
-                    type: "Identifier",
-                    name: "z",
-                  },
-                ],
-                body: {
-                  type: "BlockStatement",
-                  body: [
-                    {
-                      type: "ExpressionStatement",
-                      expression: {
-                        type: "CallExpression",
-                        callee: {
-                          type: "Super",
-                        },
-                        arguments: [
-                          {
-                            type: "Identifier",
-                            name: "x",
-                          },
-                          {
-                            type: "Identifier",
-                            name: "y",
-                          },
-                        ],
-                      },
-                    },
-                    {
-                      type: "ExpressionStatement",
-                      expression: {
-                        type: "AssignmentExpression",
-                        left: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "z",
-                          },
-                        },
-                        operator: "=",
-                        right: {
-                          type: "Identifier",
-                          name: "z",
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "FunctionDeclaration",
-                name: {
-                  type: "Identifier",
-                  name: "calc",
-                },
-                params: [],
-                body: {
-                  type: "BlockStatement",
-                  body: [
-                    {
-                      type: "ReturnStatement",
-                      argument: {
-                        type: "BinaryExpression",
-                        operator: "+",
-                        left: {
-                          type: "CallExpression",
-                          callee: {
-                            type: "Super",
-                          },
-                          arguments: [],
-                        },
-                        right: {
-                          type: "MemberExpression",
-                          computed: false,
-                          object: {
-                            type: "ThisExpression",
-                          },
-                          property: {
-                            type: "Identifier",
-                            name: "z",
-                          },
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
+    new Program([
+      new ClassDeclaration(
+        new Identifier("Point3D"),
+        new Identifier("Point"),
+        new BlockStatement([
+          new FunctionDeclaration(
+            new Identifier("constructor"),
+            [
+              new Identifier("x"),
+              new Identifier("y"),
+              new Identifier("z"),
             ],
-          },
-        },
-      ],
-    },
+            new BlockStatement(
+              [
+                new ExpressionStatement(
+                  new CallExpression(
+                    new SuperExpression(),
+                    [new Identifier("x"), new Identifier("y")],
+                  ),
+                ),
+                new ExpressionStatement(
+                  new AssignmentExpression(
+                    "=",
+                    new MemberExpression(
+                      false,
+                      new ThisExpression(),
+                      new Identifier("z"),
+                    ),
+                    new Identifier("z"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          new FunctionDeclaration(
+            new Identifier("calc"),
+            [],
+            new BlockStatement([
+              new ReturnStatement(
+                new BinaryExpression(
+                  "+",
+                  new CallExpression(
+                    new SuperExpression(),
+                    [],
+                  ),
+                  new MemberExpression(
+                    false,
+                    new ThisExpression(),
+                    new Identifier("z"),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+        ]),
+      ),
+    ]),
   );
 
   // New expression:
 
   test(
-    `
-    new Point3D(10, 20, 30);
-    `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "NewExpression",
-            callee: {
-              type: "Identifier",
-              name: "Point3D",
-            },
-            arguments: [
-              {
-                type: "NumericLiteral",
-                value: 10,
-              },
-              {
-                type: "NumericLiteral",
-                value: 20,
-              },
-              {
-                type: "NumericLiteral",
-                value: 30,
-              },
-            ],
-          },
-        },
-      ],
-    },
+    `new Point3D(10, 20, 30);`,
+    new Program([
+      new ExpressionStatement(
+        new NewExpression(
+          new Identifier("Point3D"),
+          [
+            new NumericLiteral(10),
+            new NumericLiteral(20),
+            new NumericLiteral(30),
+          ],
+        ),
+      ),
+    ]),
   );
 };

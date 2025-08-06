@@ -1,26 +1,26 @@
 import chalk from "npm:chalk";
 import stripAnsi from "npm:strip-ansi";
 import {
-  AssignmentExpressionNode,
-  BinaryExpressionNode,
-  BlockStatementNode,
-  CallExpressionNode,
-  ClassDeclarationNode,
-  DoWhileStatementNode,
-  ExpressionNode,
-  ForStatementNode,
-  FunctionDeclarationNode,
-  IfStatementNode,
-  LogicalExpressionNode,
-  MemberExpressionNode,
-  NewExpressionNode,
-  ProgramNode,
-  ReturnStatementNode,
-  StatementNode,
-  UnaryExpressionNode,
-  VariableDeclarationNode,
-  VariableStatementNode,
-  WhileStatementNode,
+  AssignmentExpression,
+  BinaryExpression,
+  BlockStatement,
+  CallExpression,
+  ClassDeclaration,
+  DoWhileStatement,
+  Expression,
+  ForStatement,
+  FunctionDeclaration,
+  IfStatement,
+  LogicalExpression,
+  MemberExpression,
+  NewExpression,
+  Program,
+  ReturnStatement,
+  Statement,
+  UnaryExpression,
+  VariableDeclaration,
+  VariableStatement,
+  WhileStatement,
 } from "../AST.ts";
 
 function pad(depth: number) {
@@ -56,7 +56,7 @@ interface ToStringOptions {
 }
 
 export function toCodeString(
-  node: ProgramNode | StatementNode | ExpressionNode | null,
+  node: Statement | Expression | null,
   depth = 0,
   options: ToStringOptions = {},
 ): string {
@@ -89,7 +89,7 @@ export function toCodeString(
       return memberExpressionToString(node, depth);
     case "ThisExpression":
       return kw`this`;
-    case "Super":
+    case "SuperExpression":
       return kw`super`;
 
     // Statements
@@ -129,13 +129,13 @@ export function toCodeString(
 
 // --- Expressions ---
 
-function unaryExpressionToString(node: UnaryExpressionNode) {
+function unaryExpressionToString(node: UnaryExpression) {
   const argument = toCodeString(node.argument, 0);
   return `${op(node.operator)}${argument}`;
 }
 
 function binaryExpressionToString(
-  node: BinaryExpressionNode | LogicalExpressionNode,
+  node: BinaryExpression | LogicalExpression,
 ) {
   const left = toCodeString(node.left, 0);
   const right = toCodeString(node.right, 0);
@@ -144,7 +144,7 @@ function binaryExpressionToString(
   return expr;
 }
 
-function assignmentExpressionToString(node: AssignmentExpressionNode) {
+function assignmentExpressionToString(node: AssignmentExpression) {
   const left = toCodeString(node.left, 0);
   const right = toCodeString(node.right, 0);
   return `${left} ${op(node.operator)} ${right}`;
@@ -152,12 +152,12 @@ function assignmentExpressionToString(node: AssignmentExpressionNode) {
 
 // --- Statements ---
 
-function programToString(node: ProgramNode) {
+function programToString(node: Program) {
   return node.body.map((node) => toCodeString(node, 0)).join("\n");
 }
 
 function variableStatementToString(
-  node: VariableStatementNode,
+  node: VariableStatement,
   depth = 0,
   options: ToStringOptions = {},
 ): string {
@@ -167,13 +167,13 @@ function variableStatementToString(
   return pad(depth) + kw`var ` + decls + semi;
 }
 
-function declarationListToString(decls: VariableDeclarationNode[]) {
+function declarationListToString(decls: VariableDeclaration[]) {
   return decls
     .map((d) => `${d.id.name} ${op`=`} ${toCodeString(d.init, 0)}`)
     .join(", ");
 }
 
-function blockToString(block: BlockStatementNode, depth = 0) {
+function blockToString(block: BlockStatement, depth = 0) {
   if (!block.body.length) return pad(depth) + sym`\{\}`;
   return [
     pad(depth) + sym`\{`,
@@ -182,13 +182,13 @@ function blockToString(block: BlockStatementNode, depth = 0) {
   ].join("\n");
 }
 
-function statementListToString(stmts: StatementNode[], depth = 0) {
+function statementListToString(stmts: Statement[], depth = 0) {
   if (!stmts.length) return pad(depth);
   return stmts.map((node) => toCodeString(node, depth)).join("\n");
 }
 
 function ifStatementToString(
-  node: IfStatementNode,
+  node: IfStatement,
   depth = 0,
 ) {
   let str = pad(depth) + kw`if`;
@@ -204,7 +204,7 @@ function ifStatementToString(
   return str;
 }
 
-function maybeBlockToString(node: StatementNode, depth = 0) {
+function maybeBlockToString(node: Statement, depth = 0) {
   if (node.type !== "BlockStatement") {
     return `\n${toCodeString(node, depth + 1)}`;
   }
@@ -212,7 +212,7 @@ function maybeBlockToString(node: StatementNode, depth = 0) {
   return ` ${sym`\{`}\n${stmts}\n${pad(depth)}${sym`\}`}`;
 }
 
-function whileStatementToString(node: WhileStatementNode, depth = 0) {
+function whileStatementToString(node: WhileStatement, depth = 0) {
   let str = pad(depth) + kw`while`;
   str += sym` (`;
   str += toCodeString(node.test, depth);
@@ -221,7 +221,7 @@ function whileStatementToString(node: WhileStatementNode, depth = 0) {
   return str;
 }
 
-function doWhileStatementToString(node: DoWhileStatementNode, depth = 0) {
+function doWhileStatementToString(node: DoWhileStatement, depth = 0) {
   let str = pad(depth) + kw`do`;
   str += maybeBlockToString(node.body, depth);
   str += kw` while`;
@@ -231,7 +231,7 @@ function doWhileStatementToString(node: DoWhileStatementNode, depth = 0) {
   return str;
 }
 
-function forStatementToString(node: ForStatementNode, depth = 0) {
+function forStatementToString(node: ForStatement, depth = 0) {
   let str = pad(depth) + kw`for`;
   str += sym` (`;
   str += node.init ? `${toCodeString(node.init, 0, { semi: false })};` : ";";
@@ -242,7 +242,7 @@ function forStatementToString(node: ForStatementNode, depth = 0) {
   return str;
 }
 
-function functionDeclarationToString(node: FunctionDeclarationNode, depth = 0) {
+function functionDeclarationToString(node: FunctionDeclaration, depth = 0) {
   let str = pad(depth) + kw`fn `;
   str += id(node.name.name);
   str += sym`(`;
@@ -252,22 +252,22 @@ function functionDeclarationToString(node: FunctionDeclarationNode, depth = 0) {
   return str;
 }
 
-function returnStatementToString(node: ReturnStatementNode, depth = 0) {
+function returnStatementToString(node: ReturnStatement, depth = 0) {
   let str = pad(depth) + kw`return`;
   str += node.argument ? ` ${toCodeString(node.argument, depth)}` : "";
   str += sym`;`;
   return str;
 }
 
-function callExpressionToString(node: CallExpressionNode, depth = 0) {
+function callExpressionToString(node: CallExpression, depth = 0) {
   let str = toCodeString(node.callee, depth);
   str += sym`(`;
-  str += node.arguments.map((arg) => toCodeString(arg, depth)).join(", ");
+  str += node.args.map((arg) => toCodeString(arg, depth)).join(", ");
   str += sym`)`;
   return str;
 }
 
-function memberExpressionToString(node: MemberExpressionNode, depth = 0) {
+function memberExpressionToString(node: MemberExpression, depth = 0) {
   let str = toCodeString(node.object, depth);
   str += node.computed ? sym`[` : sym`.`;
   str += toCodeString(node.property);
@@ -275,18 +275,18 @@ function memberExpressionToString(node: MemberExpressionNode, depth = 0) {
   return str;
 }
 
-function classDeclarationToString(node: ClassDeclarationNode, depth = 0) {
+function classDeclarationToString(node: ClassDeclaration, depth = 0) {
   let str = pad(depth) + kw`class `;
   str += id(node.id.name);
   str += maybeBlockToString(node.body, depth);
   return str;
 }
 
-function newExpressionToString(node: NewExpressionNode, depth = 0) {
+function newExpressionToString(node: NewExpression, depth = 0) {
   let str = pad(depth) + kw`new `;
   str += toCodeString(node.callee, depth);
   str += sym`(`;
-  str += node.arguments.map((arg) => toCodeString(arg, depth)).join(", ");
+  str += node.args.map((arg) => toCodeString(arg, depth)).join(", ");
   str += sym`)`;
   return str;
 }

@@ -6,62 +6,47 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default (test) => {
-  test("x > 0 == true;", {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "BinaryExpression",
-          operator: "==",
-          left: {
-            type: "BinaryExpression",
-            operator: ">",
-            left: {
-              type: "Identifier",
-              name: "x",
-            },
-            right: {
-              type: "NumericLiteral",
-              value: 0,
-            },
-          },
-          right: {
-            type: "BooleanLiteral",
-            value: true,
-          },
-        },
-      },
-    ],
-  });
+import {
+  BinaryExpression,
+  BooleanLiteral,
+  ExpressionStatement,
+  Identifier,
+  NumericLiteral,
+  Program,
+} from "../src/AST.ts";
 
-  test("x >= 0 != false;", {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "BinaryExpression",
-          operator: "!=",
-          left: {
-            type: "BinaryExpression",
-            operator: ">=",
-            left: {
-              type: "Identifier",
-              name: "x",
-            },
-            right: {
-              type: "NumericLiteral",
-              value: 0,
-            },
-          },
-          right: {
-            type: "BooleanLiteral",
-            value: false,
-          },
-        },
-      },
-    ],
-  });
+export default (test) => {
+  test(
+    "x > 0 == true;",
+    new Program([
+      new ExpressionStatement(
+        new BinaryExpression(
+          "==",
+          new BinaryExpression(
+            ">",
+            new Identifier("x"),
+            new NumericLiteral(0),
+          ),
+          new BooleanLiteral(true),
+        ),
+      ),
+    ]),
+  );
+
+  test(
+    "x >= 0 != false;",
+    new Program([
+      new ExpressionStatement(
+        new BinaryExpression(
+          "!=",
+          new BinaryExpression(
+            ">=",
+            new Identifier("x"),
+            new NumericLiteral(0),
+          ),
+          new BooleanLiteral(false),
+        ),
+      ),
+    ]),
+  );
 };

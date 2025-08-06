@@ -6,38 +6,30 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
-export default (test) => {
-  test("-x;", {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "UnaryExpression",
-          operator: "-",
-          argument: {
-            type: "Identifier",
-            name: "x",
-          },
-        },
-      },
-    ],
-  });
+import {
+  ExpressionStatement,
+  Identifier,
+  Program,
+  UnaryExpression,
+} from "../src/AST.ts";
 
-  test("!x;", {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "UnaryExpression",
-          operator: "!",
-          argument: {
-            type: "Identifier",
-            name: "x",
-          },
-        },
-      },
-    ],
-  });
+export default (test) => {
+  test(
+    "-x;",
+    new Program([
+      new ExpressionStatement(
+        new UnaryExpression(
+          "-",
+          new Identifier("x"),
+        ),
+      ),
+    ]),
+  );
+
+  test(
+    "!x;",
+    new Program([
+      new ExpressionStatement(new UnaryExpression("!", new Identifier("x"))),
+    ]),
+  );
 };

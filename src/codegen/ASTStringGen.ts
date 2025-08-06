@@ -1,10 +1,5 @@
 import chalk from "npm:chalk";
-import {
-  ExpressionNode,
-  ProgramNode,
-  StatementNode,
-  VariableDeclarationNode,
-} from "../AST.ts";
+import { Expression, Program, Statement, VariableDeclaration } from "../AST.ts";
 
 function pad(depth: number) {
   return " ".repeat(depth * 2);
@@ -40,10 +35,10 @@ function id(id: string | TemplateStringsArray) {
 
 export function toASTString(
   node?:
-    | ProgramNode
-    | StatementNode
-    | ExpressionNode
-    | VariableDeclarationNode,
+    | Program
+    | Statement
+    | Expression
+    | VariableDeclaration,
   depth = 0,
 ): string {
   if (typeof node === "undefined") {
@@ -92,10 +87,10 @@ export function toASTString(
       let str = n(node.type) + "\n";
       str += pad(depth + 1) + arg`Callee: `;
       str += toASTString(node.callee, depth + 1);
-      if (!node.arguments.length) return str;
+      if (!node.args.length) return str;
       str += "\n";
       str += pad(depth + 1) + arg`Args: `;
-      str += node.arguments.map((node) => toASTString(node, depth + 1))
+      str += node.args.map((node) => toASTString(node, depth + 1))
         .join(", ");
       return str;
     }
@@ -122,10 +117,9 @@ export function toASTString(
     }
     case "VariableStatement": {
       let str = n(node.type);
-      if (node.isStatic || node.isConstant) {
+      if (node.isConstant) {
         str += n`(`;
         str += [
-          node.isStatic && mod`Static`,
           node.isConstant && mod`Const`,
         ].filter(Boolean).join(", ");
         str += n`)`;
@@ -197,9 +191,6 @@ export function toASTString(
       let str = n(node.type);
       str += n`(`;
       str += id(node.name.name);
-      if (node.isStatic) {
-        str += ", " + mod`Static`;
-      }
       str += n`)\n`;
       if (node.params.length) {
         str += pad(depth + 1) + arg`Params: `;
@@ -226,16 +217,16 @@ export function toASTString(
       str += toASTString(node.body, depth + 1);
       return str;
     }
-    case "Super":
+    case "SuperExpression":
     case "ThisExpression": {
       return n(node.type);
     }
     case "NewExpression": {
       let str = n(node.type + `(${toASTString(node.callee)})`);
-      if (!node.arguments.length) return str;
+      if (!node.args.length) return str;
       str += "\n";
       str += pad(depth + 1) + arg`Args: `;
-      str += node.arguments.map((node) => toASTString(node, depth + 1))
+      str += node.args.map((node) => toASTString(node, depth + 1))
         .join(", ");
       return str;
     }

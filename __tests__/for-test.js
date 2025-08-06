@@ -6,82 +6,55 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  AssignmentExpression,
+  BinaryExpression,
+  BlockStatement,
+  ExpressionStatement,
+  ForStatement,
+  Identifier,
+  NumericLiteral,
+  Program,
+  VariableDeclaration,
+  VariableStatement,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `
     for (var i = 0; i < 10; i += 1) {
       x += i;
     }
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ForStatement",
-          init: {
-            type: "VariableStatement",
-            declarations: [
-              {
-                type: "VariableDeclaration",
-                id: {
-                  type: "Identifier",
-                  name: "i",
-                },
-                init: {
-                  type: "NumericLiteral",
-                  value: 0,
-                },
-              },
-            ],
-          },
-          test: {
-            type: "BinaryExpression",
-            operator: "<",
-            left: {
-              type: "Identifier",
-              name: "i",
-            },
-            right: {
-              type: "NumericLiteral",
-              value: 10,
-            },
-          },
-          update: {
-            type: "AssignmentExpression",
-            left: {
-              type: "Identifier",
-              name: "i",
-            },
-            operator: "+=",
-            right: {
-              type: "NumericLiteral",
-              value: 1,
-            },
-          },
-          body: {
-            type: "BlockStatement",
-            body: [
-              {
-                type: "ExpressionStatement",
-                expression: {
-                  type: "AssignmentExpression",
-                  left: {
-                    type: "Identifier",
-                    name: "x",
-                  },
-                  operator: "+=",
-                  right: {
-                    type: "Identifier",
-                    name: "i",
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new ForStatement(
+        new VariableStatement([
+          new VariableDeclaration(
+            new Identifier("i"),
+            new NumericLiteral(0),
+          ),
+        ]),
+        new BinaryExpression(
+          "<",
+          new Identifier("i"),
+          new NumericLiteral(10),
+        ),
+        new AssignmentExpression(
+          "+=",
+          new Identifier("i"),
+          new NumericLiteral(1),
+        ),
+        new BlockStatement([
+          new ExpressionStatement(
+            new AssignmentExpression(
+              "+=",
+              new Identifier("x"),
+              new Identifier("i"),
+            ),
+          ),
+        ]),
+      ),
+    ]),
   );
 
   test(
@@ -89,22 +62,14 @@ export default (test) => {
     for (;;) {
 
     }
-
     `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ForStatement",
-          init: null,
-          test: null,
-          update: null,
-          body: {
-            type: "BlockStatement",
-            body: [],
-          },
-        },
-      ],
-    },
+    new Program([
+      new ForStatement(
+        null,
+        null,
+        null,
+        new BlockStatement([]),
+      ),
+    ]),
   );
 };

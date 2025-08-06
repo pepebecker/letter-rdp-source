@@ -6,13 +6,13 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import { EmptyStatement, Program } from "../src/AST.ts";
+
 export default (test) => {
-  test(";", {
-    type: "Program",
-    body: [
-      {
-        type: "EmptyStatement",
-      },
-    ],
-  });
+  test(
+    ";",
+    new Program([
+      new EmptyStatement(),
+    ]),
+  );
 };

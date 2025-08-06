@@ -6,106 +6,60 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  BlockStatement,
+  ExpressionStatement,
+  NumericLiteral,
+  Program,
+  StringLiteral,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
-    `
-
-    {
-      42;
-
-      "hello";
-    }
-
-  `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "BlockStatement",
-          body: [
-            {
-              type: "ExpressionStatement",
-              expression: {
-                type: "NumericLiteral",
-                value: 42,
-              },
-            },
-
-            {
-              type: "ExpressionStatement",
-              expression: {
-                type: "StringLiteral",
-                value: "hello",
-              },
-            },
-          ],
-        },
-      ],
-    },
+    `{ 42; "hello"; }`,
+    new Program([
+      new BlockStatement([
+        new ExpressionStatement(
+          new NumericLiteral(42),
+        ),
+        new ExpressionStatement(
+          new StringLiteral("hello"),
+        ),
+      ]),
+    ]),
   );
 
   // Empty block:
 
   test(
-    `
-
-    {
-
-    }
-
-  `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "BlockStatement",
-          body: [],
-        },
-      ],
-    },
+    `{}`,
+    new Program([
+      new BlockStatement([]),
+    ]),
   );
 
   // Nested blocks:
 
   test(
     `
-
     {
       42;
       {
         "hello";
       }
     }
-
   `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "BlockStatement",
-          body: [
-            {
-              type: "ExpressionStatement",
-              expression: {
-                type: "NumericLiteral",
-                value: 42,
-              },
-            },
-            {
-              type: "BlockStatement",
-              body: [
-                {
-                  type: "ExpressionStatement",
-                  expression: {
-                    type: "StringLiteral",
-                    value: "hello",
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+    new Program([
+      new BlockStatement([
+        new ExpressionStatement(
+          new NumericLiteral(42),
+        ),
+        new BlockStatement([
+          new ExpressionStatement(
+            new StringLiteral("hello"),
+          ),
+        ]),
+      ]),
+    ]),
   );
 };

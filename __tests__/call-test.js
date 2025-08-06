@@ -6,95 +6,54 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  CallExpression,
+  ExpressionStatement,
+  Identifier,
+  MemberExpression,
+  Program,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `foo(x);`,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "CallExpression",
-            callee: {
-              type: "Identifier",
-              name: "foo",
-            },
-            arguments: [
-              {
-                type: "Identifier",
-                name: "x",
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new ExpressionStatement(
+        new CallExpression(
+          new Identifier("foo"),
+          [new Identifier("x")],
+        ),
+      ),
+    ]),
   );
 
   test(
     `foo(x)();`,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "CallExpression",
-            callee: {
-              type: "CallExpression",
-              callee: {
-                type: "Identifier",
-                name: "foo",
-              },
-              arguments: [
-                {
-                  type: "Identifier",
-                  name: "x",
-                },
-              ],
-            },
-            arguments: [],
-          },
-        },
-      ],
-    },
+    new Program([
+      new ExpressionStatement(
+        new CallExpression(
+          new CallExpression(
+            new Identifier("foo"),
+            [new Identifier("x")],
+          ),
+        ),
+      ),
+    ]),
   );
 
   test(
     `console.log(x, y);`,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "CallExpression",
-            callee: {
-              type: "MemberExpression",
-              computed: false,
-              object: {
-                type: "Identifier",
-                name: "console",
-              },
-              property: {
-                type: "Identifier",
-                name: "log",
-              },
-            },
-            arguments: [
-              {
-                type: "Identifier",
-                name: "x",
-              },
-              {
-                type: "Identifier",
-                name: "y",
-              },
-            ],
-          },
-        },
-      ],
-    },
+    new Program([
+      new ExpressionStatement(
+        new CallExpression(
+          new MemberExpression(
+            false,
+            new Identifier("console"),
+            new Identifier("log"),
+          ),
+          [new Identifier("x"), new Identifier("y")],
+        ),
+      ),
+    ]),
   );
 };

@@ -6,56 +6,44 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  AssignmentExpression,
+  ExpressionStatement,
+  Identifier,
+  NumericLiteral,
+  Program,
+} from "../src/AST.ts";
+
 export default (test) => {
   // Simple assignment:
-  test(`x = 42;`, {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "AssignmentExpression",
-          operator: "=",
-          left: {
-            type: "Identifier",
-            name: "x",
-          },
-          right: {
-            type: "NumericLiteral",
-            value: 42,
-          },
-        },
-      },
-    ],
-  });
+  test(
+    `x = 42;`,
+    new Program([
+      new ExpressionStatement(
+        new AssignmentExpression(
+          "=",
+          new Identifier("x"),
+          new NumericLiteral(42),
+        ),
+      ),
+    ]),
+  );
 
   // Chained assignment:
-  test(`x = y = 42;`, {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "AssignmentExpression",
-          operator: "=",
-          left: {
-            type: "Identifier",
-            name: "x",
-          },
-          right: {
-            type: "AssignmentExpression",
-            operator: "=",
-            left: {
-              type: "Identifier",
-              name: "y",
-            },
-            right: {
-              type: "NumericLiteral",
-              value: 42,
-            },
-          },
-        },
-      },
-    ],
-  });
+  test(
+    `x = y = 42;`,
+    new Program([
+      new ExpressionStatement(
+        new AssignmentExpression(
+          "=",
+          new Identifier("x"),
+          new AssignmentExpression(
+            "=",
+            new Identifier("y"),
+            new NumericLiteral(42),
+          ),
+        ),
+      ),
+    ]),
+  );
 };

@@ -6,25 +6,21 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  BinaryExpression,
+  ExpressionStatement,
+  Identifier,
+  NumericLiteral,
+  Program,
+} from "../src/AST.ts";
+
 export default (test) => {
-  test("x > 0;", {
-    type: "Program",
-    body: [
-      {
-        type: "ExpressionStatement",
-        expression: {
-          type: "BinaryExpression",
-          operator: ">",
-          left: {
-            type: "Identifier",
-            name: "x",
-          },
-          right: {
-            type: "NumericLiteral",
-            value: 0,
-          },
-        },
-      },
-    ],
-  });
+  test(
+    "x > 0;",
+    new Program([
+      new ExpressionStatement(
+        new BinaryExpression(">", new Identifier("x"), new NumericLiteral(0)),
+      ),
+    ]),
+  );
 };

@@ -6,32 +6,22 @@
  * (C) 2020-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
  */
 
+import {
+  ExpressionStatement,
+  NumericLiteral,
+  Program,
+  StringLiteral,
+} from "../src/AST.ts";
+
 export default (test) => {
   test(
     `
     "hello";
-
     42;
-
   `,
-    {
-      type: "Program",
-      body: [
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "StringLiteral",
-            value: "hello",
-          },
-        },
-        {
-          type: "ExpressionStatement",
-          expression: {
-            type: "NumericLiteral",
-            value: 42,
-          },
-        },
-      ],
-    },
+    new Program([
+      new ExpressionStatement(new StringLiteral("hello")),
+      new ExpressionStatement(new NumericLiteral(42)),
+    ]),
   );
 };
